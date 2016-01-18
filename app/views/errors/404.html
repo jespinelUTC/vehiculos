@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Not found</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}"/>    
+    </head>
+    <body>
+        #{if play.mode.name() == 'DEV'}
+        
+            <!-- {404 result /} -->
+            <h3>La url que está solicitando no existe</h3>                        
+        #{/if}
+        #{else}
+            <h1>Error</h1>
+            <p>
+            	<h3>La url que está solicitando no existe</h3>
+                <!--  $.    {result.message}-->
+            </p>
+        #{/else}
+    </body>
+</html>

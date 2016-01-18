@@ -1,0 +1,74 @@
+#{extends 'main.html' /}
+#{set title:'Mensajería Instantanea' /}
+
+		<legend>Mensajería Instantanea <a onclick="window.close();" class="pull-right" style="font-size: 14px; margin-top: 4px;">Abandonar Conversación</a> </legend> 
+		
+		<div id="thread">
+		    #{list events}
+		        #{if _.type == 'message'}
+		            <div class="message ${_.user == user ? 'you' : ''}">              	  
+		                	<label class="remitente col-xs-4 col-sm-4 col-md-5 col-lg-4">
+		             		 			${_.user}
+							</label>
+							<div class="text-justify texto col-xs-5 col-sm-5 col-md-5 col-lg-8">								
+		                    	${_.text}
+		                    </div>
+		            </div>
+		        #{/if}
+		        
+		        <!-- 
+		        #{if _.type == 'join'}
+		            <div class="message notice">
+		                <h2></h2>
+		                <p>
+		                    ${_.user} joined the room
+		                </p>
+		            </div>
+		        #{/if}
+		        #{if _.type == 'leave'}
+		            <div class="message notice">
+		                <h2></h2>
+		                <p>
+		                    ${_.user} left the room
+		                </p>
+		            </div>
+		        #{/if}
+		         -->
+		    #{/list}
+		</div>
+		<br /><br /><br /> <br /> <br />
+		
+		<div class="row">
+		    #{form @say(user)}
+		
+		        <div class="col-sm-12 col-md-12">
+				    <div class="input-group">
+				      <input type="text"  autofocus="autofocus" name="message" autocomplete="off" class="form-control" placeholder="Escriba el mensaje...">
+				      <span class="input-group-btn">
+				        <button class="btn btn-primary" type="submit" id="send"><b>Enviar</b></button>
+				      </span>
+				    </div><!-- /input-group -->
+				</div><!-- /.col-lg-6 -->
+		    #{/}
+		</div>
+
+<script type="text/javascript" charset="${_response_encoding}">
+
+    // Scroll the messages panel to the end
+    var scrollDown = function() {
+        $('#thread').scrollTo('max')
+    }
+
+    // Reload the whole messages panel
+    var refresh = function() {
+        $('#thread').load('@{room(user)} #thread .message', function() {
+            scrollDown()
+        })
+    }
+    
+    // Call refresh every 5 seconds
+    setInterval(refresh, 3000)
+    
+    scrollDown()
+    
+</script>

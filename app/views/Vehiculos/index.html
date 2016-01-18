@@ -1,0 +1,155 @@
+#{extends 'main.html' /}
+#{set title:'Vehículos' /}
+
+<legend><b>Vehículos Registrados</b><a href="@{Vehiculos.nuevoVehiculo()}" class="btn btn-primary  pull-right btn-sm" ><i class="glyphicon glyphicon-plus"></i> Nuevo Vehículo</a></legend>
+
+#{if flash.guardado}
+<div class="alert alert-success">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
+	<i class="glyphicon glyphicon-ok"> </i> ${flash.guardado}
+</div>
+#{/if}
+
+#{if flash.actualizado}
+<div class="alert alert-success">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
+	<i class="glyphicon glyphicon-ok"> </i> ${flash.actualizado}
+</div>
+#{/if}
+
+
+
+#{if flash.eliminado}
+<div class="alert alert-danger">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
+	 <i class="glyphicon glyphicon-remove"> </i> ${flash.eliminado}
+</div>
+#{/if}
+
+<form action="@{Vehiculos.index}" method="get">
+    <div class="input-group">
+      <input autofocus="autofocus" value="${busqueda}" type="text" name="busqueda" class="form-control input-sm" placeholder="Ingrese la placa, marca, descripción,tipo, color o custdio que desea buscar" />
+      <span class="input-group-btn">
+        <button class="btn btn-success btn-sm" type="submit"> <i class="glyphicon glyphicon-search"> </i> Buscar</button>
+      </span>
+    </div><!-- /input-group -->
+</form>
+<br />
+#{if vehiculos}
+
+
+
+
+<div class="table-responsive">
+	<table class="table table-striped table-hover">
+		<tr>		
+			<td colspan="11">
+				<a download="listado_de_vehiculos.xls"   href="#"   onclick="return ExcellentExport.excel(this, 'listadoVehiculos', 'Hoja1');" class="pull-right"> <img src="@{'/public/images/iconos/export_excel.png'}" alt="" /> Exportar a Excel</a>			
+			</td>	
+		</tr>	
+	
+		<tr>
+			<th class="alert alert-warning text-center">No</th>
+			<th class="alert-warning text-center">PLACA</th>
+			<th class="alert-warning text-center">MATRÍCULA</th>
+			<th class="alert-warning text-center">MARCA</th>		
+			<th class="alert-warning text-center">COLOR</th>
+			<th class="alert-warning text-center">TIPO</th>
+			<th class="alert-warning text-center">DESCRIPCIÓN</th>		
+			<th class="alert-warning text-center">CUSTODIO</th>
+			<th class="alert-warning text-center" colspan="2">OPCIONES</th>
+		</tr>
+		
+		%{int cont=0;}%
+		#{paginate.list items:vehiculos, as:'vehiculo'}
+		
+	
+				%{ cont++;}%
+				
+				#{if flash.nuevoVehiculo}
+					#{if flash.nuevoVehiculo==vehiculo.placa}
+					 <tr class="info">
+					#{/if}
+					#{else}
+					 <tr >
+					#{/else}
+				#{/if}
+				
+					<td class="text-center">${cont}</td>
+					<td class="text-center">${vehiculo.placa}</td>	
+					<td class="text-center">${vehiculo.matricula}</td>				
+					<td class="text-center">${vehiculo.marca}</td>			
+					<td class="text-center">${vehiculo.color}</td>
+					<td class="text-center">${vehiculo.tipo}</td>
+					<td class="text-center">${vehiculo.descripcion}</td>				
+					<td class="text-center">${vehiculo.custodio.nombre} ${vehiculo.custodio.apellido}</td>
+					<td class="text-center"> <a href="@{Vehiculos.editarVehiculo(vehiculo.id)}" class="btn btn-warning btn-circle"  data-toggle="popover"  data-html="true"   data-content="Editar"  data-placement="bottom"> <i class="glyphicon glyphicon-edit"></i>  </a> </td>				
+					<td class="text-center"> <a href="@{Vehiculos.eliminarVehiculo(vehiculo.id)}" onclick="return confirm('¿Está seguro que desea eliminar a este usuario de manera permanente?');" class="btn btn-danger btn-circle" data-toggle="popover"  data-html="true"   data-content="Eliminar"  data-placement="bottom">  <i class="glyphicon glyphicon-trash"></i>  </a> </td>
+				</tr>
+				
+		#{/paginate.list}
+	
+	
+	</table>
+</div> <!-- table-responsive  -->
+	<div class="text-center" style="margin-bottom: 5px; font-size: 12px;">
+		<b>#{paginate.controls items:vehiculos/} </b>
+		<div style="margin-top:-35px;"> <b> #{paginate.summary items:vehiculos/} </b></div>
+	</div>
+
+#{/if}
+
+#{else}
+	
+	<div class="alert alert-danger">
+		No se entraron vehículos
+	</div>
+
+#{/else}
+<script>
+	$("[data-toggle=popover]").popover({
+	 	trigger:'hover'
+	 });
+</script>
+
+
+
+
+
+
+
+
+<table id="listadoVehiculos" style="display:none;">
+
+	<tr>
+		<th style="background-color: #FFD4AA;">No</th>
+		<th style="background-color: #FFD4AA;">PLACA</th>
+		<th style="background-color: #FFD4AA;">MATRÍCULA</th>
+		<th style="background-color: #FFD4AA;">MARCA</th>		
+		<th style="background-color: #FFD4AA;">COLOR</th>
+		<th style="background-color: #FFD4AA;">TIPO</th>
+		<th style="background-color: #FFD4AA;">DESCRIPCIÓN</th>		
+		<th style="background-color: #FFD4AA;">CUSTODIO</th>
+		<th style="background-color: #FFD4AA;">COMBUSTIBLE</th>
+		<th style="background-color: #FFD4AA;">KILOMETRAJE</th>
+	</tr>
+	
+	%{int cont=0;}%
+	#{list items:vehiculos, as:'vehiculo'}
+			%{ cont++;}%			
+			<tr>
+				<td>${cont}</td>
+				<td>${vehiculo.placa}</td>	
+				<td>${vehiculo.matricula}</td>				
+				<td>${vehiculo.marca}</td>			
+				<td>${vehiculo.color}</td>
+				<td>${vehiculo.tipo}</td>
+				<td>${vehiculo.descripcion}</td>				
+				<td>${vehiculo.custodio.nombre} ${vehiculo.custodio.apellido}</td>
+				<td>${vehiculo.combustible}</td>
+				<td>${vehiculo.kilometraje}</td>
+			</tr>			
+	#{/list}
+
+
+</table>

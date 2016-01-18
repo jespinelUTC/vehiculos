@@ -1,0 +1,287 @@
+<html>
+
+	<head>
+	 	<meta  charset="utf-8"/>
+	 	<title>Orden de Combustible</title>
+	 	<style>
+	 	
+	 		.escudo{
+	 			margin-left: 30px;
+	 			margin-right: 50px;
+	 			margin-top: -20px;
+	 		}
+	 		.encabezado{
+	 			margin-top: 5px;
+	 		}
+	 		
+	 		
+	 		.contenedorPrincipal{
+	 			 border-radius: 15px 50px 30px 5px;
+			     border: 2px solid black;
+			 }
+			 
+			 .contenedorConcepto{
+			  	padding: 20px;			 	
+			 }
+			 
+			 
+			 .contenedorDescripcion{
+			 	padding: 20px;	
+			 }
+			 
+			 .contenedorDescripcion>table>tr>td{
+			 	padding: 5px;	
+			 }
+			 
+			 
+			 .contenedorFecha{
+			 	padding-left: 20px;
+			 	padding-right: 20px;	
+			 }
+			 
+			 .firmas{
+			 	text-align: center;			 	
+			 	font-size: 12px;			 	
+			 }
+	 		
+	 		
+	 		
+	 		
+	 	</style>
+		
+	</head>
+	
+	<body>
+		<div class="contenedorPrincipal">
+			
+			<table>
+				<td>
+					<img src="@{'/public/images/mejia1.png'}" height="100px" class="escudo"/>
+				</td>
+				<td>
+					<div class="encabezado">
+						<center>
+							<h3>GOBIERNO A.D. MUNICIPAL DEL CANTÓN MEJÍA</h3>
+							DIRECCIÓN ADMINISTRATIVA Y TALENTO HUMANO
+							<h3>ORDEN DE COMBUSTIBLE</h3>																
+						</center>
+							<h3 style="margin-left: 400px;">No. ${solicitud.ordenMovilizacion.ordenCombustible.numero}</h3>
+						
+					</div>	
+				</td>
+			</table>
+			
+			<div class="contenedorConcepto">
+				<table border="1" class="tablaConcepto" style="margin-top: -20px;">
+					<tr style="background-color: #E1E1E1;">
+						<th style="width: 350px;"><center> CONCEPTO </center></th>
+						<th style="width: 250px;"><center>CANTIDAD </center></th>
+						<th style="width: 250px;"><center>VALOR UNITARIO USD </center></th>
+					</tr>
+					<tr>
+						<td>GASOLINA SUPER </td>
+						<td> 
+							#{if solicitud.ordenMovilizacion.ordenCombustible.concepto=="GASOLINA SUPER"}			
+								<center>${solicitud.ordenMovilizacion.ordenCombustible.cantidad}</center>
+							#{/if}
+							#{else}
+								<center> XXXXX </center>
+							#{/else}
+						</td>
+						<td>
+						
+						
+							#{if solicitud.ordenMovilizacion.ordenCombustible.concepto=="GASOLINA SUPER"}			
+								<center>${solicitud.ordenMovilizacion.ordenCombustible.valorUnitario}</center>
+							#{/if}	
+							#{else}
+								<center> XXXXX </center>
+							#{/else}	
+						
+						
+						</td>
+					</tr>
+					<tr>
+						<td>GASOLINA EXTRA</td>
+						<td>
+							#{if solicitud.ordenMovilizacion.ordenCombustible.concepto=="GASOLINA EXTRA"}			
+								<center>${solicitud.ordenMovilizacion.ordenCombustible.cantidad}</center>
+							#{/if}	
+							#{else}
+								<center> XXXXX </center>
+							#{/else}					
+						</td>
+						<td>
+						
+							#{if solicitud.ordenMovilizacion.ordenCombustible.concepto=="GASOLINA EXTRA"}			
+								<center>${solicitud.ordenMovilizacion.ordenCombustible.valorUnitario}</center>
+							#{/if}	
+							#{else}
+								<center> XXXXX </center>
+							#{/else}
+						
+						</td>
+					</tr>
+					<tr>
+						<td>DIESEL</td>
+						<td>						
+							#{if solicitud.ordenMovilizacion.ordenCombustible.concepto=="DIESEL"}			
+								<center>${solicitud.ordenMovilizacion.ordenCombustible.cantidad}</center>
+							#{/if}
+							#{else}
+								<center> XXXXX </center>
+							#{/else}							
+						</td>
+						<td>
+							#{if solicitud.ordenMovilizacion.ordenCombustible.concepto=="DIESEL"}			
+								<center>${solicitud.ordenMovilizacion.ordenCombustible.valorUnitario}</center>
+							#{/if}
+							#{else}
+								<center> XXXXX </center>
+							#{/else}	
+						
+						</td>
+					</tr>
+					<tr>
+						<td> <div style="float: right; ">TOTAL</div></td>
+						<td> <center> ${solicitud.ordenMovilizacion.ordenCombustible.cantidad} </center></td>
+						<td> <center> ${solicitud.ordenMovilizacion.ordenCombustible.total} </center></td>
+					</tr>
+				</table>	
+			</div>
+			
+			<hr style="margin-top: -10px;">
+						
+			<p style="text-align: justify; padding-left: 20px; padding-right: 20px; margin-top: -5px;">
+				Debo y pagaré a la estación de servicio <b> ${solicitud.ordenMovilizacion.ordenCombustible.estacionServicio}</b>
+				a la vista la suma de <b> ${solicitud.ordenMovilizacion.ordenCombustible.suma}</b> dólares, valor de la
+				presente planilla. 
+			</p>					
+			<div style="background-color: #E1E1E1; height: 30px;  border: solid 1px black; margin-top: -3px;"">				
+					<center>
+						<h4 style="margin-top: 4px;"> DESCRIPCIÓN DE VEHÍCULO O MAQUINARIA </h4>
+					</center>
+			</div>
+			
+			<div class="contenedorDescripcion" style="margin-top: -20px;">
+				<table border="" >
+					<tr>
+						<td style="width: 100px; text-align: right;"> <b> MARCA:</b></td>
+						<td style="width: 500px;">${solicitud.ordenMovilizacion.marca}</td>
+						<td style="width: 100px; text-align: right;"" ><b> TIPO:</b></td>
+						<td style="width: 400px;">${solicitud.ordenMovilizacion.tipoVehiculo}</td>
+					</tr>
+					<tr>
+						<td style="width: 100px; text-align: right;""><b> PLACA:</b></td>
+						<td style="width: 500px;">${solicitud.ordenMovilizacion.placa}</td>
+						<td style="width: 100px; text-align: right;""><b> CUSTODIO:</b></td>
+						<td style="width: 400px;">${solicitud.ordenMovilizacion.custodio}</td>
+					</tr>
+					
+					
+					
+					
+					<tr>
+						<td style="width: 100px; text-align: right;"> <b> KILOMETRAJE/ODÓMETRO:</b></td>
+						<td style="width: 1000px;" colspan="3">${solicitud.ordenMovilizacion.ordenCombustible.kilometraje}</td>
+						
+					</tr>
+					
+					
+					<tr>
+						<td style="width: 100px; text-align: right;"> <b> UNIDAD ASIGNADA:</b></td>
+						<td colspan="3" style="width: 1000px;">${solicitud.ordenMovilizacion.ordenCombustible.unidadAsignada}</td>
+					</tr>
+					
+					
+					<tr>
+						<td style="width: 100px; text-align: right;"> <b>ACTIVIDAD TRABAJO:</b></td>
+						<td colspan="3" style="width: 1000px; height:180px; text-align: justify;">							
+								${solicitud.ordenMovilizacion.ordenCombustible.actividad}	
+						</td>
+					</tr>
+					
+							
+				</table>
+				
+			</div>
+			
+			<hr />
+			
+			<div class="contenedorFecha">
+				<p style="text-align: justify;">
+					Machachi, ${fecha}
+				</p>	
+				
+				
+				<p style="text-align: justify; margin-top: -5px; height: 40px;">
+					<b>OBSERVACIONES: </b>${solicitud.ordenMovilizacion.ordenCombustible.observaciones}
+				</p>
+				
+						
+			</div>
+			
+			<div class="firmas">
+				<table border="1">
+					<tr>
+						<td class="firmas">
+							 <br />
+							 <b>NOMBRE Y FIRMA DEL CONDUCTOR</b>	<br />						 
+							 ${solicitud.ordenMovilizacion.conductor}
+							 
+							  <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							
+						
+						
+						</td>
+						<td class="firmas"> 
+							<br />
+							<b>FIRMA PERSONA AUTORIZADA MUNICIPIO</b> <br />
+							${solicitud.ordenMovilizacion.ordenCombustible.nombreAutorizadoMunicipio}
+							 
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 
+							
+							
+						</td>
+						<td class="firmas"> 
+							<br />
+							<b>FIRMA DESPACHADOR GASOLINERA</b> <br />
+							
+							
+						 	<br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							 <br />
+							
+							
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			
+			
+		</div>	
+		
+		
+
+	</body>
+</html>
+
+

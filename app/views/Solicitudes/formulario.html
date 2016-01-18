@@ -1,0 +1,296 @@
+#{extends 'main.html' /}
+#{set title:'Nueva Solicitud' /}
+
+<style>
+	
+	.help-block{
+		margin-bottom: 0px;
+	}
+	.form-control{
+		font-size: 12px;
+	}
+	
+</style>
+
+
+<form   class="form-horizontal" id="formulario" style="font-size: 11px;" method="POST" action="@{Solicitudes.guardarSolicitud}" enctype="multipart/form-data">
+	<fieldset>
+	
+		<!-- Form Name -->
+		<legend>Solicitud de Salida de Vehículos<a href="@{Solicitudes.historialSolicitudes()}" class="btn btn-primary  pull-right btn-sm" ><i class="glyphicon glyphicon-eye-open"></i> Ver Todas</a></legend>		
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-2 control-label" for="lugar">Lugar:</label>  
+		  <div class="col-md-4">
+		  <input id="lugar" name="lugar" autocomplete="on" autofocus="autofocus" placeholder="Ingrese el lugar" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. Machachi</span>  
+		  </div>
+		  <label class="col-md-2 control-label" for="fecha">Fecha:</label>  
+		  <div class="col-md-4">
+		  <input id="fecha" name="fecha" placeholder="Seleccione la fecha" class="form-control input-md" type="date">
+		  <span class="help-block">Indique la fecha(s) para la solicitud.</span>  
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		   <label class="col-md-2 control-label" for="solicitante">Solicitante:</label>  
+		  <div class="col-md-4">
+		  <input value="${conectado.nombre} ${conectado.apellido}" class="form-control input-md" type="text" disabled="disabled">
+		  <span class="help-block">El solicitante se toma del usuario conectado</span> 		  
+		  </div>
+		  <label class="col-md-2 control-label" >C.I.:</label>  
+		  <div class="col-md-4">
+		  <input value="${conectado.cedula}" class="form-control input-md" type="text" disabled="disabled">		
+		  <span class="help-block">La cédula se toma del usuario conectado</span> 	   
+		  </div>
+		</div>
+		
+		
+			<!-- Text input-->
+		<div class="form-group">
+		   <label class="col-md-2 control-label" for="cargo">Cargo:</label>  
+		  <div class="col-md-4">
+		  <input class="form-control input-md" type="text" id="cargo" name="cargo" placeholder="Ingrese su cargo">	
+		  <span class="help-block">Ej.Inspector</span> 	  
+		  </div>
+		  <label class="col-md-2 control-label" for="direccion" >Dirección o Departamento:</label>  
+		  <div class="col-md-4">
+		  <input class="form-control input-md" type="text" id="direccion" name="direccion" placeholder="Ingrese la dirección o departamento">	
+		  <span class="help-block">Ej. Obras Públicas</span> 	   
+		  </div>
+		</div>
+		
+		
+		<!-- Textarea -->
+		<div class="form-group">
+		  <label class="col-md-2 control-label" for="motivo">Motivo de la Movilización:</label>
+		  <div class="col-md-10">                     
+		    <textarea class="form-control input-sm" id="motivo" name="motivo" rows="6" placeholder="Escriba el motivo por el cual se solicita la salida de un vehículo"></textarea>
+		  </div>
+		</div>
+		
+		
+			<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-2 control-label" for="lugar">Lugar de Origen:</label>  
+		  <div class="col-md-4">
+		  <input id="lugarOrigen" name="lugarOrigen" placeholder="Ingrese el lugar de origen" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. Machachi</span>  
+		  </div>
+		  <label class="col-md-2 control-label" for="lugar">Lugar de Destino:</label>  
+		  <div class="col-md-4">
+		  <input id="lugarDestino" name="lugarDestino" placeholder="Ingrese el lugar de destino" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. Aloag</span>  
+		  </div>
+		</div>
+		
+			<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-2 control-label" for="lugar">Hora de Salida:</label>  
+		  <div class="col-md-4">
+		  <input id="horaSalida" name="horaSalida" placeholder="Ingrese la hora de salida" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 08:00</span>  
+		  </div>
+		  <label class="col-md-2 control-label" for="lugar">Tiempo Duración Comisión:</label>  
+		  <div class="col-md-4">
+		  <input id="duracion" name="duracion" placeholder="Ingrese el tiempo que durará la salida" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 2 horas</span>  
+		  </div>
+		</div>
+		
+		
+		<!-- Textarea -->
+		<div class="form-group">
+		  <label class="col-md-2 control-label" for="motivo">Observaciones:</label>
+		  <div class="col-md-10">                     
+		    <textarea class="form-control input-sm" id="observaciones" name="observaciones" rows="4" placeholder="Ingrese las observaciones de la solicitud de salida de vehículos"></textarea>
+		  </div>
+		</div>
+		
+		
+			<!-- Textarea -->
+		<div class="form-group">
+		  <label class="col-md-2 control-label" for="motivo"></label>
+		  <div class="col-md-3">                     
+		   	<button class="btn btn-primary btn-block" type="submit"   >  <i class="glyphicon glyphicon-send"> </i>  Guardar y Enviar </button>
+		  </div>
+		   <div class="col-md-3">                     
+		   	<a class="btn btn-danger btn-block" href="@{Solicitudes.historialSolicitudes()}">  <i class="glyphicon glyphicon-remove"> </i>  Cancelar </a>
+		  </div>
+		</div>
+	
+	</fieldset>
+</form>
+
+
+<script>
+	
+	$("#formulario").validate({
+		rules:{
+			lugar:{
+				required:true
+			},
+			fecha:{
+				required:true
+			},
+			cargo:{
+				required:true
+			},
+			direccion:{
+				required:true
+			},
+			motivo:{
+				required:true,
+				maxlength: 500
+			},
+			lugarOrigen:{
+				required:true
+			},
+			lugarDestino:{
+				required:true
+			},
+			horaSalida:{
+				required:true
+			},
+			duracion:{
+				required:true
+			},
+			observaciones:{
+				required:true,
+				maxlength: 160
+			}
+			
+		},
+		messages:{
+			lugar:{
+				required:"Por favor ingrese el lugar de la solicitud."
+			},
+			fecha:{
+				required:"Por favor seleccione la fecha."
+			},
+			cargo:{
+				required:"Por favor indique su cargo."
+			},
+			direccion:{
+				required:"Por favor indique la dirección solicitante."
+			},
+			motivo:{
+				required:"Por favor indique el motivo de la movilización.",
+				maxlength: "Este campo tiene un límite de 500 caracteres"
+			},
+			lugarOrigen:{
+				required:"Por favor indique el lugar de origen."
+			},
+			lugarDestino:{
+				required:"Por favor indique el lugar de destino."
+			},
+			horaSalida:{
+				required:"Por favor indique la hora de salida."
+			},
+			duracion:{
+				required:"Por favor indique la duración de la movilización."
+			},
+			observaciones:{
+				required:"Por favor indique las observaciones.",
+				maxlength: "Este campo tiene un límite de 160 caracteres"
+			}
+		}
+		
+	});
+	
+	$('#fecha').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        autoUpdateInput: false,
+        format: 'YYYY-MM-DD',
+            
+        
+    });
+	
+	  $('#fecha').on('apply.daterangepicker', function(ev, picker) {
+	      $('#fecha').val(picker.startDate.format('YYYY-MM-DD'));
+	  });
+
+	  $('#fecha').on('cancel.daterangepicker', function(ev, picker) {
+	      $('input[name="datefilter"]').val('');
+	  });
+	  
+	  $('#fecha').val("");
+	  
+	  
+	  //autocompletar
+	    $(function() {
+		    var lugaresDisponibles = [				
+		      #{list items:models.SolicitudSalidaVehiculo.find("select distinct lugar from SolicitudSalidaVehiculo ").fetch(),as:'lugar'}
+		      	decodificarEntidades("${lugar}"),
+		      #{/list}
+		    ];
+		    $( "#lugar" ).autocomplete({
+		      source: lugaresDisponibles
+		    });
+		    
+		    
+		    
+		    var cargosDisponibles = [				
+   		      #{list items:models.SolicitudSalidaVehiculo.find("select distinct cargoSolicitante from SolicitudSalidaVehiculo ").fetch(),as:'cargo'}
+   		   		decodificarEntidades("${cargo}"),
+   		      #{/list}
+   		    ];
+		    
+		    $( "#cargo" ).autocomplete({
+			      source: cargosDisponibles
+			    });
+		    
+		    
+		    var direccionesDisponibles = [				
+      		      #{list items:models.SolicitudSalidaVehiculo.find("select distinct direccionSolicitante from SolicitudSalidaVehiculo ").fetch(),as:'direccion'}
+      		    	decodificarEntidades("${direccion}"),
+      		      #{/list}
+      		    ];
+   		    
+   		    $( "#direccion" ).autocomplete({
+   			      source: direccionesDisponibles
+   			    });	 
+   		    
+   		    
+   		  var lugaresOrigen= [				
+   		      #{list items:models.SolicitudSalidaVehiculo.find("select distinct lugarOrigen from SolicitudSalidaVehiculo ").fetch(),as:'lugar'}
+   		      	decodificarEntidades("${lugar}"),
+   		      #{/list}
+   		    ];
+   		    $( "#lugarOrigen" ).autocomplete({
+   		      source: lugaresOrigen
+   		    });
+   		    
+   		    
+   		 var lugaresDestino= [				
+  		      #{list items:models.SolicitudSalidaVehiculo.find("select distinct lugarDestino from SolicitudSalidaVehiculo ").fetch(),as:'lugar'}
+  		      	decodificarEntidades("${lugar}"),
+  		      #{/list}
+  		    ];
+  		    $( "#lugarDestino" ).autocomplete({
+  		      source: lugaresDestino
+  		    });
+
+   		    
+		  });
+	  
+	  
+	  
+	  
+	    $(function() {
+            $('#horaSalida').timepicker();
+        });
+	    
+	    
+	    $('#formulario').submit(function() {
+			if($("#formulario").valid()){	    		
+				return confirm("¿Está seguro que desea enviar la solicitud, recuerde que luego de enviada no podrá modificarla?");					    	
+	    	}else{
+	    		return false;
+	    	}    		    		    	
+	    });
+
+</script>

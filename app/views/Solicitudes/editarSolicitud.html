@@ -1,0 +1,385 @@
+#{extends 'main.html' /}
+#{set title:'Editar Solicitud' /}
+
+<legend>
+		<b>Editando Solicitud</b> 
+
+		<a href="@{Solicitudes.aprobadas()}" class="btn btn-primary  pull-right btn-sm" ><i class="glyphicon glyphicon-arrow-left"></i> Nuevo Solicitud</a>		
+		
+</legend>
+
+<div class="well">
+	 <center><b>Solicitud de Salida de Vehículos No. ${solicitud.numero}</b> </center> <br />
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Lugar: </b> ${solicitud.lugar}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Fecha: </b> ${String.valueOf(solicitud.fecha).substring(0,10)}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos del Solicitante: </b> ${solicitud.nombreSolicitante}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>C.I.: </b> ${solicitud.cedulaSolicitante}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Cargo: </b> ${solicitud.cargoSolicitante}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Dirección/Departamento: </b> ${solicitud.direccionSolicitante}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Motivo de la Movilización: </b>  ${solicitud.motivoMovilizacion}
+			</p>
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Lugar de Origen: </b> ${solicitud.lugarOrigen}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Lugar de Destino: </b> ${solicitud.lugarDestino}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Hora de Salida: </b> ${solicitud.horaSalida}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Tiempo Duración Comisión: </b> ${solicitud.tiempoDuracionComision}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Observaciones: </b>  ${solicitud.observaciones}
+			</p>
+		</div>		
+	</div>
+
+		
+</div>
+
+
+
+<form method="POST" action="@{Solicitudes.guardarOrdenMovilizacion()}"  class="form-horizontal" id="formulario" style="font-size: 11px;" >
+	
+	<input type="hidden" name="idSolicitud" value="${solicitud.id}"/>
+	<legend style="font-size: 16px;"> <center> <b> Editar Orden de Movilización </b> </center></legend>
+	
+		<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="lugar">Vehículo Asignado:</label>  
+			  <div class="col-md-4">		  
+			  	<select name="idVehiculo" id="idVehiculo" class="form-control selectpicker" data-live-search="true" title="-- Seleccione el vehículo --">
+			  		#{list items:vehiculos, as:'vehiculo'}
+			  			<option value="${vehiculo.id}" data-subtext='${vehiculo.placa}'>${vehiculo.descripcion}</option>
+			  		#{/list}
+			  	</select>
+			  </div>
+			  
+			  <label class="col-md-1 control-label" for="fecha">Custodio:</label>  
+			  <div class="col-md-4">
+			 	 <input id="custodio" name="custodio"  class="form-control input-md" type="text" disabled="disabled"/>		  
+			  </div>
+			</div>
+			
+			
+			<!-- Text input-->
+			<div class="form-group">
+			   <label class="col-md-3 control-label" for="solicitante">Marca:</label>  
+			  <div class="col-md-4">
+			  	<input class="form-control input-md" id="marca" name="marca" type="text" disabled="disabled">			  	 
+			  </div>
+			  
+			  <label class="col-md-1 control-label" for="solicitante">Placa:</label>  
+			  <div class="col-md-4">
+			  	<input class="form-control input-md" id="placa" name="placa" type="text" disabled="disabled">			  	 
+			  </div>
+			  
+			</div>
+			
+		<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="solicitante">Matrícula: </label>  
+			  <div class="col-md-4">
+			  	<input class="form-control input-md" id="matricula" name="matricula" type="text" disabled="disabled">			  	 
+			  </div>
+			  
+			  <label class="col-md-1 control-label" for="solicitante">Color:</label>  
+			  <div class="col-md-4">
+			  	<input class="form-control input-md" id="color" name="color" type="text" disabled="disabled">			  	 
+			  </div>
+			</div>
+			
+		
+		<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="lugar">Nombres y apellidos conductor:</label>  
+			  <div class="col-md-4">		  
+			  	<select name="idConductor" id="idConductor" class="form-control selectpicker" data-live-search="true" title="-- Seleccione el conductor --">
+			  		#{list items:conductores, as:'conductor'}
+			  			<option value="${conductor.id}" data-subtext='${conductor.cedula}'>${conductor.nombre+" "+conductor.apellido}</option>
+			  		#{/list}
+			  	</select>
+			  </div>
+			  
+			  <label class="col-md-1 control-label" for="fecha">C.I.:</label>  
+			  <div class="col-md-4">
+			 	 <input id="cedulaConductor" name="cedulaConductor"  class="form-control input-md" type="text" disabled="disabled"/>		  
+			  </div>
+			</div>
+			
+		
+		<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="lugar">Nombres y apellidos servidor a cargo del vehículo:</label>  
+			  <div class="col-md-4">		  
+			  	<input type="text" name="servidor" id="servidor" class="form-control" />
+			  </div>
+			  
+			  <label class="col-md-1 control-label" for="fecha">C.I.:</label>  
+			  <div class="col-md-4">
+			 	 <input id="cedulaServidor" name="cedulaServidor"  class="form-control input-md" type="text" />		  
+			  </div>
+			</div>
+			
+			<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="lugar">Nombres y apellidos funcionario autorizado:</label>  
+			  <div class="col-md-9">		  
+			  	<input type="text" name="funcionario" id="funcionario" class="form-control" value="${solicitud.ordenMovilizacion.funcionarioAutorizado}"" />
+			  </div>
+			</div>
+			
+			<!-- 
+			
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="lugar">Combustible Despachado:</label>  
+			  <div class="col-md-4">		  
+	
+			  	<a href="@{OrdenesCombustible.nuevaOrden(solicitud.id)}" class="btn btn-block btn-success btn-sm"> <i class="glyphicon glyphicon-road"> </i>  &nbsp; Asignar Combustible </a>
+			  </div>
+			</div>
+			 -->
+			 
+			<br />
+				<!-- Text input-->
+			<div class="form-group">
+			  <label class="col-md-3 control-label" for="lugar"></label>  
+			  <div class="col-md-3">		  
+			  	<button type="submit" class="btn btn-block btn-primary"> <i class="glyphicon glyphicon-send"> </i>  &nbsp;  Guardar y Enviar </button>
+			  </div>
+			  <div class="col-md-3">		  
+			  	<a href="@{Solicitudes.aprobadas()}" class="btn btn-block btn-danger"> <i class="glyphicon glyphicon-remove"> </i>  &nbsp; Cancelar </a>
+			  </div>
+			</div>
+			
+			
+</form>
+
+<script>
+
+$(document).ready(function(){
+
+	
+	var idSeleccionado=${solicitud.ordenMovilizacion.idVehiculo};
+	#{list items:vehiculos,as:'vehiculo'}
+		var idBdd=${vehiculo.id};		
+		if(idBdd==idSeleccionado){				
+			$("#custodio").val(decodificarEntidades("${vehiculo.custodio.nombre}")+" "+decodificarEntidades("${vehiculo.custodio.apellido}"));
+			$("#marca").val(decodificarEntidades("${vehiculo.marca}"));
+			$("#placa").val(decodificarEntidades("${vehiculo.placa}"));
+			$("#matricula").val(decodificarEntidades("${vehiculo.matricula}"));
+			$("#color").val(decodificarEntidades("${vehiculo.color}"));	
+							
+			//Encadenando informacion
+			$('#idConductor').val(${vehiculo.custodio.id});						
+			$('.selectpicker').selectpicker('refresh');
+			var idSeleccionado1=$("#idConductor").val();		
+			#{list items:conductores, as:'conductor'}					
+				var idBdd1=${conductor.id};
+				if(idBdd1==idSeleccionado1){
+					$("#cedulaConductor").val("${conductor.cedula}");
+					$("#servidor").val(decodificarEntidades("${conductor.nombre}")+" "+decodificarEntidades("${conductor.apellido}"));
+					$("#cedulaServidor").val(decodificarEntidades("${conductor.cedula}"));
+				}
+			#{/list}
+						
+			$('#idVehiculo').val(${solicitud.ordenMovilizacion.idVehiculo});						
+			$('.selectpicker').selectpicker('refresh');
+		}
+	#{/list}	
+	
+	
+	
+	
+	
+	
+	
+	//encadenadno vehiculo
+	
+		%{int idConductor=models.Vehiculo.findById(solicitud.ordenMovilizacion.idVehiculo).custodio.id}%
+	
+		
+		var idSeleccionado1=${idConductor};		
+		#{list items:conductores, as:'conductor'}			
+			var idBdd1=${conductor.id};
+			if(idBdd1==idSeleccionado1){
+				$("#cedulaConductor").val("${conductor.cedula}");
+				$("#servidor").val(decodificarEntidades("${conductor.nombre}")+" "+decodificarEntidades("${conductor.apellido}"));
+				$("#cedulaServidor").val(decodificarEntidades("${conductor.cedula}"));
+			}
+		#{/list}
+		
+		$('#idConductor').val(${idConductor});						
+		$('.selectpicker').selectpicker('refresh');
+	
+	
+});
+
+	$("#idVehiculo").change(function(){		
+		var idSeleccionado=$("#idVehiculo").val();
+		#{list items:vehiculos,as:'vehiculo'}
+			var idBdd=${vehiculo.id};		
+			if(idBdd==idSeleccionado){				
+				$("#custodio").val(decodificarEntidades("${vehiculo.custodio.nombre}")+" "+decodificarEntidades("${vehiculo.custodio.apellido}"));
+				$("#marca").val(decodificarEntidades("${vehiculo.marca}"));
+				$("#placa").val(decodificarEntidades("${vehiculo.placa}"));
+				$("#matricula").val(decodificarEntidades("${vehiculo.matricula}"));
+				$("#color").val(decodificarEntidades("${vehiculo.color}"));	
+								
+				//Encadenando informacion
+				$('#idConductor').val(${vehiculo.custodio.id});						
+				$('.selectpicker').selectpicker('refresh');
+				var idSeleccionado1=$("#idConductor").val();		
+				#{list items:conductores, as:'conductor'}					
+					var idBdd1=${conductor.id};
+					if(idBdd1==idSeleccionado1){
+						$("#cedulaConductor").val("${conductor.cedula}");
+						$("#servidor").val(decodificarEntidades("${conductor.nombre}")+" "+decodificarEntidades("${conductor.apellido}"));
+						$("#cedulaServidor").val(decodificarEntidades("${conductor.cedula}"));
+					}
+				#{/list}
+				
+				$("#funcionario").focus();
+			}
+		#{/list}		
+	});
+	
+		
+	$("#idConductor").change(function(){
+		var idSeleccionado1=$("#idConductor").val();		
+		#{list items:conductores, as:'conductor'}			
+			var idBdd1=${conductor.id};
+			if(idBdd1==idSeleccionado1){
+				$("#cedulaConductor").val("${conductor.cedula}");
+				$("#servidor").val(decodificarEntidades("${conductor.nombre}")+" "+decodificarEntidades("${conductor.apellido}"));
+				$("#cedulaServidor").val(decodificarEntidades("${conductor.cedula}"));
+			}
+		#{/list}
+		
+		$("#funcionario").focus();
+	});
+	
+	
+	
+		$("#formulario").validate({
+			rules:{
+				idVehiculo:{
+					required:true
+				},
+				idConductor:{
+					required:true
+				},
+				servidor:{
+					required:true,
+					lettersonly:true
+				},
+				cedulaServidor:{
+					required:true,
+					cedula:true,
+					digits:true
+				},
+				funcionario:{
+					required:true,
+					lettersonly:true
+				}
+				
+				
+			},
+			messages:{
+				idVehiculo:{
+					required:"Por favor seleccione el vehículo para la movilización"
+				},
+				idConductor:{
+					required:"Por favor seleccione el conductor para la movilización"
+				},
+				servidor:{
+					required:"Por favor indique los nombres y apellidos del servidor a cargo del vehículo",
+					lettersonly:"Este campo solo acepta letras"
+				},
+				cedulaServidor:{
+					required:"Por favor indique el número de cédula del servidor a cargo del vehículo",
+					cedula:"El número de cédula ingresado es incorrecto",
+					digits:"Este capo solo acepta números"
+				},
+				funcionario:{
+					required:"Por favor ingrese los nombres y apellidos del funcionario autorizado",
+					lettersonly:"Este campo solo acepta letras"
+				}
+				
+			},
+			errorPlacement: function (error, element) {
+			    if ($(element).is('select')) {
+			        element.next().after(error); // special placement for select elements
+			    } else {
+			        error.insertAfter(element);  // default placement for everything else
+			    }
+			}
+			
+		}).settings.ignore = ':not(select:hidden, input:visible, textarea:visible)';
+		
+		
+	   $('#formulario').submit(function() {
+			if($("#formulario").valid()){	    		
+				return confirm("¿Está seguro que desea editar la orden de movilización?");					    	
+	    	}else{
+	    		return false;
+	    	}    		    		    	
+	    });
+
+		
+</script>
+
+
+
+<style>
+
+	.row{
+		margin-bottom: 10px;
+		font-size: 11px;
+	}
+</style>

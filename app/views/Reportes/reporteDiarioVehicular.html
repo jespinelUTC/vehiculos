@@ -1,0 +1,58 @@
+#{extends 'main.html' /}
+#{set title:'Reporte Diario Vehicular' /}
+
+<legend>Reporte Diario Vehicular  <span class="pull-right" style="font-size: 14px; margin-top: 8px;"> <b>Fecha:</b> <script>fecha();</script>  - <b>Hora: </b> <script>hora();</script> </span> </legend>
+
+
+<h1>${fecha}</h1>
+<div class="visible-sm visible-xs">	
+	<br /><br />
+</div>
+
+#{if vehiculos}
+		#{list items:vehiculos, as:'vehiculo'}			
+			<div class="col-md-6">
+				<div class="well">
+					<div class="row">
+						<label for="" class="col-md-4">VEHÍCULO:</label>
+						<div class="col-md-8">${vehiculo.descripcion}</div>
+					</div>
+					
+					<div class="row">
+						<label for="" class="col-md-4">COMBUSTIBLE:</label>
+						<div class="col-md-8">${vehiculo.combustible}</div>
+					</div>
+					
+					<div class="row">
+						<label for="" class="col-md-4">KILOMETRAJE:</label>
+						<div class="col-md-8">${vehiculo.kilometraje}</div>
+					</div>
+					
+				</div>				
+			</div>			
+		#{/list}
+		
+		<form action="@{Reportes.reporteDiarioVehicularPDF()}" method="GET" target="_blank">
+			<div class="col-md-12">
+				<input type="hidden" name="fecha" id="fecha" />
+			 	<button  type="submit"  class="btn btn-default"> <img src="@{'public/images/iconos/pdf1.png'}" alt="" height="40px" />Exportar a PDF</button>
+			 </div>
+		 </form>
+		 
+		 
+#{/if}
+
+#{else}
+
+	<div class="alert alert-danger">
+		No se encontraron vehículos
+	</div>
+
+#{/else}
+
+
+<script>	
+	$("#fecha").val(obtenerFecha()+" - "+obtenerHora());
+</script>
+ 
+ 

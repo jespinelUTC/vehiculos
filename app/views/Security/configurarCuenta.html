@@ -1,0 +1,245 @@
+#{extends 'main.html' /}
+#{set title:'Configurar Cuenta' /}
+
+
+<form class="form-horizontal" id="formNuevo" method="POST" action="@{Security.actualizarCuenta}">
+<fieldset>
+
+<!-- Form Name -->
+<legend> <b> Datos de la Cuenta </b> </legend>
+
+
+<input type="hidden" name="idUsuario" value="${conectado.id}"  id="idUsuario"/>
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="cedula">Cédula:</label>  
+  <div class="col-md-8">
+  <input id="cedula" name="cedula" value="${conectado.cedula}"  placeholder="Ingrese el número de cédula" class="form-control input-md" type="text">  
+  </div>
+</div>
+
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="apellido">Apellidos:</label>  
+  <div class="col-md-8">
+  <input id="apellido" name="apellido" value="${conectado.apellido}"  placeholder="Ingrese los apellidos" class="form-control input-md" type="text">  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="nombre">Nombres:</label>  
+  <div class="col-md-8">
+  <input id="nombre" name="nombre" value="${conectado.nombre}"  placeholder="Ingrese los nombres" class="form-control input-md" type="text"> 
+  </div>
+</div>
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="username">Nombre de Usuario:</label>  
+  <div class="col-md-8">
+  <input id="username" name="username" value="${conectado.username}"  placeholder="Ingrese un nombre de usuario" class="form-control input-md" type="text">     
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="username"></label>  
+  <div class="col-md-8">
+ 	<a class="btn btn-primary pull-right btn-sm" id="cambiarContrasena"> <b>Cambiar Contraseña</b></a>	  
+  </div>
+</div>
+
+<div id="contenedorPassword">
+<!-- Password input-->
+		<div class="form-group">
+		  <label class="col-md-3 control-label" for="passwordActual">Contraseña Actual:</label>
+		  <div class="col-md-8">
+		    <input id="passwordActual" name="passwordActual" placeholder="Ingrese su contraseña actual" class="form-control input-md" type="password">		    
+		  </div>
+		</div>
+		
+		<!-- Password input-->
+		<div class="form-group">
+		  <label class="col-md-3 control-label" for="passwordNuevo">Nueva Contraseña:</label>
+		  <div class="col-md-8">
+		    <input id="passwordNuevo" name="passwordNuevo" placeholder="Ingrese su nueva contraseña" class="form-control input-md" type="password">		    
+		  </div>
+		</div>
+		
+		<!-- Password input-->
+		<div class="form-group">
+		  <label class="col-md-3 control-label" for="passwordConfirmar">Confirme la Contraseña:</label>
+		  <div class="col-md-8">
+		    <input id="passwordConfirmar" name="passwordConfirmar" placeholder="Confirme la nueva contraseña ingresada" class="form-control input-md" type="password">		    
+		  </div>
+		</div>
+	</div> <!-- Contenedor Password -->
+		
+		<!-- Select Basic -->
+		<div class="form-group">
+		  <label class="col-md-3  control-label" for="selectbasic">Perfil:</label>
+		  <div class="col-md-8">
+		    <input type="text" value="${conectado.perfil.descripcion}" disabled="disabled" class="form-control" />  
+		  </div>
+		</div>
+
+		<!-- Button (Double) -->
+		<div class="form-group">
+		  <label class="col-md-3  control-label" for="guardar"></label>
+		  <div class="col-md-8">
+		    <button id="guardar" name="guardar" class="btn btn-success" type="submit"> <i class="glyphicon glyphicon-ok"> </i> Actualizar</button>
+		    <a id="cancelar" href="@{Application.index}"  class="btn btn-danger" > <i class="glyphicon glyphicon-remove"> </i> Cancelar</a>
+		  </div>
+		</div>
+
+</fieldset>
+</form>
+
+
+<script>
+
+
+	$("#cambiarContrasena").click(function(){
+		$("#passwordActual").val("");
+		$("#passwordNuevo").val("");
+		$("#passwordConfirmar").val("");
+				
+		if($("#contenedorPassword").is(":visible")){
+			$("#contenedorPassword").hide("fast");	
+			$("#cambiarContrasena").html("<b>Cambiar Contraseña</b>");
+		}else{
+			$("#contenedorPassword").show("fast");
+			$("#cambiarContrasena").html("<b>No Cambiar Contraseña</b>");
+		}
+		
+	});
+	
+	
+	
+	$(document).ready(function(){
+		$("#contenedorPassword").prop("hidden","true");
+	});
+	
+	
+	$("#formNuevo").validate({
+		
+		rules:{
+			cedula:{
+				required:true,
+				cedula:true,
+				remote:{
+					url: "@{Security.verificarCedulaEditar}",
+			        type: "post",
+			        data: {
+				          cedula: function() {						        	  
+				            return $("#cedula").val();
+			              },
+			              id:function(){
+			            	  return $("#idUsuario").val();
+			              }
+				        }
+		      		}
+				
+			},
+			
+			apellido:{
+				required:true,
+				lettersonly: true
+			},
+			
+			nombre:{
+				required:true,
+			},
+			
+			username:{
+				required:true,
+				remote:{
+					url:"@{Security.verificarUsername}",
+					type:"post",
+					data:{
+						username:function(){
+							return $('#username').val();
+						},
+						id:function(){
+							return $('#idUsuario').val();
+						}
+					}
+				}
+			},
+			passwordNuevo:{
+				minlength: 6,
+				required:true
+			},
+			
+			passwordConfirmar:{
+				equalTo:"#passwordNuevo",
+				required:true
+			},
+			passwordActual:{
+				remote:{
+					url: "@{Security.verificarPassword}",
+			        type: "post",
+			        data: {
+				          password: function() {						        	  
+				            return $("#passwordActual").val();
+			              },
+			              idUsuario:function(){
+			            	  return $("#idUsuario").val();
+			              }
+				        }
+					
+				},
+				required:true
+			}
+			
+			
+		},
+		messages:{
+			cedula:{
+				required:"Por favor ingrese el número de cédula.",
+				cedula:"El número de cédula ingresado no es valido",
+				remote: "Esta cédula ya está registrada en otro usuario"
+			},
+			apellido:{
+				required:"Por favor ingrese los apellidos.",
+				lettersonly:"Este campo solo acepta letras."				
+			},			
+			nombre:{
+				required:"Por favor ingrese los nombres."
+			},
+
+			username:{
+				required:"Por favor ingrese un nombre de usuario.",
+				remote:"El nombre de usuario ingresado ya está en uso",
+			},
+			passwordNuevo:{
+				minlength:"La contraseña debe tener mínimo 6 caracteres.",
+				required:"Por favor ingrese una nueva contraseña."
+			},
+			passwordConfirmar:{
+				equalTo:"La nueva contraseña ingresada no coincide.",
+				required:"Por favor confirme la nueva contraseña."
+			},
+			passwordActual:{
+				remote:"La contraseña ingresada es incorrecta.",
+				required:"Por favor ingrese su contraseña actual."
+			}
+			
+		}
+		
+		
+	});
+	
+	
+</script>
+
+<style>
+	
+	label.error{
+		margin-bottom: 0px;
+	}
+</style>

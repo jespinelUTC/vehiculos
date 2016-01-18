@@ -1,0 +1,89 @@
+#{extends 'main.html' /}
+#{set title:'Control de Ingreso y Kilometraje' /}
+
+<legend> Control de Ingreso y Kilometraje <span style="font-size: 12px; font-style: italic;">(El formato de fecha usado es año-mes-dia)</span> </legend>
+
+<div class="row" style="margin-bottom: 10px;">
+	<form action="@{Reportes.controlIngresoKilometraje()}" class="form-horizontal" method="post">
+		<label for="" class="col-md-3 control-label">Fecha: </label>
+		<div class="col-md-4">
+			<input type="text" name="fecha" id="fecha" class="form-control" />
+		</div>
+		<div class="col-md-4">
+			<button class="btn btn-success" type="submit"> <i class="glyphicon glyphicon-eye-open"> </i> Consultar</button>			
+		</div>
+	</form>
+</div>
+
+
+#{if solicitudes}
+	<table class="table table-striped table-hover" id="listadoSolicitudes" >
+		<tr>
+			<th colspan="8"> <span class="pull-right" id="infoFecha"></span></th>
+		</tr>
+		<tr>
+			<th class="text-center alert alert-warning">CUSTODIO</th>
+			<th class="text-center alert alert-warning">VEHÍCULO</th>
+			<th class="text-center alert alert-warning">HORA SALE</th>
+			<th class="text-center alert alert-warning">KM SALE</th>
+			<th class="text-center alert alert-warning">DESTINO</th>
+			<th class="text-center alert alert-warning">HORA RETORNO</th>
+			<th class="text-center alert alert-warning">KM RETORNO</th>
+			<th class="text-center alert alert-warning">DIRECCIÓN</th>
+		</tr>			
+	#{list items:solicitudes, as:'solicitud'}
+		<tr>
+			<td class="text-justify"> Sr. ${solicitud.ordenMovilizacion.custodio} </td>
+			<td class="text-center"> ${solicitud.ordenMovilizacion.vehiculoAsignado} </td>
+			<td class="text-center"> ${solicitud.despachoVehiculo.horaSalida} </td>
+			<td class="text-center"> ${solicitud.despachoVehiculo.kilometrajeSalida}</td>
+			<td class="text-center"> ${solicitud.lugarDestino} </td>
+			<td class="text-center"> ${solicitud.despachoVehiculo.horaRetorno} </td>
+			<td class="text-center"> ${solicitud.despachoVehiculo.kilometrajeRetorno} </td>
+			<td class="text-center"> ${solicitud.direccionSolicitante} </td>
+		</tr>
+	#{/ list}	
+	</table>
+
+	<form action="@{Reportes.controlIngresoKilometrajePDF()}" method="GET" target="_blank">
+		<div class="col-md-12">
+			<input type="hidden" name="fechaConsulta" id="fechaConsulta" />
+			<input type="hidden" name="fecha1" value="${f}" />
+		 	<button  type="submit"  class="btn btn-default"> <img src="@{'public/images/iconos/pdf1.png'}" alt="" height="40px" />Exportar a PDF</button>
+		 	<a style="height: 53px;"  download="listado_de_solicitudes.xls"   href="#"   onclick="return ExcellentExport.excel(this, 'listadoSolicitudes', 'Hoja1');" class="btn btn-default"> <img src="@{'/public/images/iconos/export_excel.png'}" style="margin-top: 7px;"/>  Exportar a Excel</a>
+		 </div>
+	 </form>	 
+#{/if}
+#{else}
+	<div class="alert alert-danger">
+		<i class="glyphicon glyphicon-remove"> </i> No se encontraron solicitudes de salida de vehiculos realizadas el: <b> ${f} </b>
+	</div>
+#{/else}
+
+
+
+<script>
+
+	$('#fecha').daterangepicker({
+	    singleDatePicker: true,
+	    showDropdowns: true,
+	    autoUpdateInput: false,
+	    format:'YYYY-MM-DD'
+	});
+
+  $('#fecha').on('apply.daterangepicker', function(ev, picker) {
+      $('#fecha').val(picker.startDate.format('YYYY-MM-DD'));
+  });
+
+  $('#fecha').on('cancel.daterangepicker', function(ev, picker) {
+      $('input[name="fecha"]').val('');
+  });
+  
+  $('#fecha').val("${f}");
+  
+  var day = moment("${f}", "YYYY-MM-DD");  
+  var fecha=convertirFechaCompleta(day.toDate());
+  $("#fechaConsulta").val(fecha);
+  $("#infoFecha").text(fecha);
+	
+</script>

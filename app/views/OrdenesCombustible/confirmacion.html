@@ -1,0 +1,156 @@
+#{extends 'main.html' /}
+#{set title:'Asignación de Combustible' /}
+
+<div class="well" style="padding: 10px;">
+		<b>VEHÍCULO SELECCIONADO <i class="glyphicon glyphicon-menu-right"></i> </b> &nbsp; <b>Placa:</b> ${solicitud.ordenMovilizacion.placa} &nbsp; <b>Descripción:</b> &nbsp; ${solicitud.ordenMovilizacion.vehiculoAsignado} &nbsp; <b>Combustible:</b> &nbsp; ${vehiculo.combustible}
+	<br />
+	<b>¿Desea asignar combustible para la salida del vehículo?</b>
+		&nbsp; &nbsp; &nbsp;
+	<a href="@{OrdenesCombustible.nuevaOrden(solicitud.id)}" class="btn btn-primary"> <i class="glyphicon glyphicon-ok-circle"></i> Si</a>
+	<a href="@{Solicitudes.aprobadas}" class="btn btn-danger"> <i class=" glyphicon glyphicon-remove-circle"></i> No</a>
+</div>
+
+<div class="well">
+	<legend><b>Solicitud de Salida de Vehículos No. 000${solicitud.numero}</b>  </legend>
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Lugar: </b> ${solicitud.lugar}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Fecha: </b> ${String.valueOf(solicitud.fecha).substring(0,10)}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos del Solicitante: </b> ${solicitud.nombreSolicitante}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>C.I.: </b> ${solicitud.cedulaSolicitante}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Cargo: </b> ${solicitud.cargoSolicitante}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Dirección/Departamento: </b> ${solicitud.direccionSolicitante}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Motivo de la Movilización: </b>  ${solicitud.motivoMovilizacion}
+			</p>
+		</div>		
+	</div>
+	
+	
+	<div class="row bg-danger" style="padding: 10px;">	
+		<div class="col-md-6">
+			<b>Lugar de Origen: </b> ${solicitud.lugarOrigen}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Lugar de Destino: </b> ${solicitud.lugarDestino}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Hora de Salida: </b> ${solicitud.horaSalida}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Tiempo Duración Comisión: </b> ${solicitud.tiempoDuracionComision}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Observaciones: </b>  ${solicitud.observaciones}
+			</p>
+		</div>		
+	</div>
+
+	<legend><b> Orden de Movilización </b></legend>
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Vehículo Asignado: </b> ${solicitud.ordenMovilizacion.vehiculoAsignado}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Custodio: </b> ${solicitud.ordenMovilizacion.custodio}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Marca: </b> ${solicitud.ordenMovilizacion.marca}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Placa: </b> ${solicitud.ordenMovilizacion.placa}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Matrícula: </b> ${solicitud.ordenMovilizacion.matricula}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Color: </b> ${solicitud.ordenMovilizacion.color}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Nombres y Apellidos Conductor: </b>  ${solicitud.ordenMovilizacion.conductor}
+			</p>
+		</div>	
+		<div class="col-md-6">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>C.I.: </b>  ${solicitud.ordenMovilizacion.cedulaConductor}
+			</p>
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos Servidor a Cargo del Vehículo: </b> ${solicitud.ordenMovilizacion.servidorAcargo}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>C.I.: </b> ${solicitud.ordenMovilizacion.cedulaServidorAcargo}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos Funcionario Autorizado: </b> ${solicitud.ordenMovilizacion.funcionarioAutorizado}
+		</div>
+		
+	</div>
+	
+</div>
+
+
+<style>
+
+	.row{
+		margin-bottom: 10px;
+		font-size: 11px;
+	}
+</style>

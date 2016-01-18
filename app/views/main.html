@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>#{get 'title' /}</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap.css'}">
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/bootstrap-select.css'}">                       
+        <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery.timepicker.css'}">        
+        <link rel="stylesheet" type="text/css" media="all" href="@{'/public/stylesheets/daterangepicker.css'}" />
+        <link rel="stylesheet" type="text/css" media="all" href="@{'/public/stylesheets/jquery-ui.min.css'}" />
+        <link rel="stylesheet" type="text/css" media="all" href="@{'/public/stylesheets/font-awesome.css'}" />
+        <link rel="stylesheet" type="text/css" media="all" href="@{'/public/stylesheets/play-pagination.css'}" />  
+        <link rel="stylesheet" type="text/css" media="all" href="@{'/public/stylesheets/fullcalendar.css'}" />
+        <link rel="stylesheet" type="text/css" media="all" href="@{'/public/stylesheets/fullcalendar.print.css'}" />      
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        #{get 'moreStyles' /}
+        
+       <style>
+       		.btn-circle {
+			  width: 30px;
+			  height: 30px;
+			  text-align: center;
+			  padding: 6px 0;
+			  font-size: 12px;
+			  line-height: 1.42;
+			  border-radius: 15px;
+			}
+       </style>
+        
+        <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+        <script src="@{'/public/javascripts/jquery-2.1.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>        
+        <script src="@{'/public/javascripts/jquery.validate.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/nuevasValidaciones.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/bootstrap-select.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        
+         <script src="@{'/public/javascripts/main.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+          <script src="@{'/public/javascripts/jquery-ui.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+         
+         <script type="text/javascript" src="@{'/public/javascripts/moment.js'}"></script>
+     	 <script type="text/javascript" src="@{'/public/javascripts/daterangepicker.js'}"></script>
+     	 <script type="text/javascript" src="@{'/public/javascripts/jquery.timepicker.js'}"></script>     	 
+     	  <script type="text/javascript" src="@{'/public/javascripts/excellentexport.js'}"></script>
+     	  
+     	   <script type="text/javascript" src="@{'/public/javascripts/jquery.scrollTo-min.js'}"></script>
+     	    <script type="text/javascript" src="@{'/public/javascripts/templating.js'}"></script> 
+     	    <script type="text/javascript" src="@{'/public/javascripts/fullcalendar.js'}"></script>     	      	          
+        #{get 'moreScripts' /}
+        
+    </head>
+    <body >
+    	
+    	                        	
+        			
+    		#{if conectado}	
+	     		<img src="@{'/public/images/banner1.png'}" alt="" class="img-responsive"/>		   				   	
+		   		
+		   		<div style="height: 48px; background: #297FA0; color: white; padding: 5px; margin-top: 0px; margin-bottom: 5px;">		
+		   			<div class="pull-left">
+		   				<div class="visible-sm visible-md visible-lg">
+		   					<h4 style="margin: 0px; margin-top: 5px; margin-left: 115px;">Sistema de Solicitud de Salida de Vehículos</h4>
+		   				</div>
+		   				
+		   				<div class="visible-xs">
+		   					<h5 style="margin: 0px; margin-top: 5px;">Sistema de Solicitud de Salida de Vehículos</h5>
+		   				</div>
+		   				
+		   			
+		   			</div>
+		   						    	
+					<div class="dropdown pull-right" style="margin-right: 10px; margin-top:5px;">				
+						   <a style="color:white;" class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							    <b>${conectado.perfil.descripcion}: </b> ${conectado.username}
+							    <span class="caret"></span>
+							  </a>
+							  						  
+							  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							  	<li><a href="@{Security.configurarCuenta}"> <i class="glyphicon glyphicon-user"> </i> &nbsp; Configurar Cuenta</a></li>
+							    <li><a href="@{Application.enterDemo(conectado.nombre+' '+conectado.apellido,'refresh')}" target="_blank" onClick="window.open(this.href, this.target, 'width=600,height=400,scrollbars=yes'); return false;" > <i class="glyphicon glyphicon-comment"> </i> &nbsp; Mensajería Instantanea</a></li>
+							    <li><a href="@{Secure.logout}"  > <i class="glyphicon glyphicon-log-out"> </i> &nbsp; Salir del Sistema</a></li>
+							  </ul>						
+					</div>	
+					
+				#{/if}					
+			</div>      
+	
+	   <div class="container">	   	   
+	   <br />
+	   #{if conectado}	
+	        <div class="col-sm-3 col-md-3 col-lg-3">
+	            <div class="panel-group" id="accordion">            
+	               
+	               #{if conectado.perfil.descripcion != 'CONDUCTOR'}         
+	            	<!-- Opcion 1 -->
+	                <div class="panel panel-success">
+	                    <div class="panel-heading">
+	                        <h4 class="panel-title">
+	                            <a><span class="glyphicon glyphicon-folder-close">
+	                            </span> Solicitudes</a>
+	                        </h4>
+	                    </div>
+	                    <div >
+	                        <div class="panel-body">
+	                            <table class="table">
+	                            	#{if conectado.perfil.descripcion=="DIRECCION"}
+	                            	  <tr>
+	                                    <td>
+	                                         <a href="javascript:location.reload();">  <span class="glyphicon glyphicon-refresh"></span> &nbsp; Actualizar</a>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td>
+	                                         <a href="@{Solicitudes.formulario}">  <span class="glyphicon glyphicon-file"></span> &nbsp; Nueva Solicitud</a>
+	                                    </td>
+	                                </tr>
+	                                #{/if}
+	                                <tr>
+	                                	#{if conectado.perfil.descripcion!="DESPACHADOR"}
+	                                    <td>
+	                                    	
+	                                        <a href="@{Solicitudes.historialSolicitudes()}"> 
+	                                        	#{if conectado.perfil.descripcion=="LOGISTICA"}
+	                                        		<span class="glyphicon glyphicon-hourglass"> </span> &nbsp;  Pendientes
+	                                        	#{/if}
+	                                        	#{else}	                                        		
+	                                        		<span class="glyphicon glyphicon-th-list"> </span> &nbsp; Historial
+	                                        	#{/else}
+	                                        		                                        
+	                                        </a>
+	                                       
+	                                        #{if conectado.perfil.descripcion=="LOGISTICA"}	 
+	                                        		<!-- AQUI -->                                       	
+	                                        		<span class="badge" style="background-color: #F2DEDE; color: #A94442;" id="pendientes"></span>	                                        	
+	                                        #{/if}
+	                                        
+	                                    </td>
+	                                </tr>
+	                                 #{/if}
+	                                
+	                               #{if conectado.perfil.descripcion=="LOGISTICA" || conectado.perfil.descripcion=="DESPACHADOR"}
+	                                 <tr>
+	                                    <td>
+	                                        <a href="@{Solicitudes.aprobadas()}"><span class="glyphicon glyphicon-ok-sign"> </span> &nbsp; Aprobadas
+	                                        
+	                                        	
+														#{if conectado.perfil.descripcion=="DESPACHADOR"}	
+		                                        		<span id="aprobadas" class="badge" style="background-color: #F2DEDE; color: #A94442;"  data-toggle="popover"  data-html="true"   data-content="<div class='text-center'> Registrar Salida</div>"  data-placement="bottom"></span>
+
+	                                        			<span id="aprobadasSalida" data-toggle="popover"  data-html="true"   data-content="<div class='text-center'> Registrar Retorno</div>"  data-placement="bottom" class="badge" style="background-color: #DFF0D8;; color: #3C763D "></span>
+														#{/if}																						
+	                                        </a>
+	                                    </td>
+	                                </tr>
+	                                #{/if}	                                
+	                                
+	                                #{if conectado.perfil.descripcion=='LOGISTICA' || conectado.perfil.descripcion=='DESPACHADOR'}
+	                                <tr>
+	                                    <td>
+	                                        <a href="@{Solicitudes.finalizadas()}"><i class="icon icon-archive"> </i> &nbsp; Finalizadas</a>
+	                                    </td>
+	                                </tr>
+	                                #{/if}
+	                                
+	                            </table>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- Fin Opcion 1 -->
+	                #{/if}
+	                
+	                
+	                
+	                #{if conectado.perfil.descripcion == "LOGISTICA" }
+	                
+	                
+	                 <div class="panel panel-success">
+	                    <div class="panel-heading">
+	                        <h4 class="panel-title">
+	                            <a><span class="glyphicon glyphicon-user">
+	                            </span> Usuarios </a>
+	                        </h4>
+	                    </div>
+	                    <div >
+	                        <div class="panel-body">
+	                            <table class="table">
+	                                <tr>
+	                                    <td>
+	                                        <a href="@{Usuarios.nuevoUsuario()}"> <i class="glyphicon glyphicon-plus-sign"></i> Nuevo Usuario</a>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td>
+	                                        <a href="@{Usuarios.index()}"> <i class="glyphicon glyphicon-list-alt"> </i> Lista de Usuarios</a> 
+	                                    </td>
+	                                </tr>
+	                            </table>
+	                        </div>
+	                    </div>
+	                </div>
+	                
+	                
+	                <div class="panel panel-success">
+	                    <div class="panel-heading">
+	                        <h4 class="panel-title">
+	                            <a><span class="glyphicon glyphicon-scale">
+	                            </span> Vehículos</a>
+	                        </h4>
+	                    </div>
+	                    <div>
+	                        <div class="panel-body">
+	                            <table class="table">
+	                                <tr>
+	                                    <td>
+	                                        <a href="@{Vehiculos.nuevoVehiculo}"> <i class="glyphicon glyphicon-plus-sign"></i>  Nuevo Vehículo</a>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td>
+	                                        <a href="@{Vehiculos.index}"> <i class="glyphicon glyphicon-list-alt"> </i> Lista de Vehículos</a>
+	                                    </td>
+	                                </tr>
+	                            </table>
+	                        </div>
+	                    </div>
+	                </div>
+	                #{/if}
+
+
+				#{if conectado.perfil.descripcion=='LOGISTICA' || conectado.perfil.descripcion=='DESPACHADOR'}
+	                <div class="panel panel-success">
+	                    <div class="panel-heading">
+	                        <h4 class="panel-title">
+	                            <a><span class="glyphicon glyphicon-file">
+	                            </span>Reportes</a>
+	                        </h4>
+	                    </div>
+	                    <div>
+	                        <div class="panel-body">
+	                            <table class="table">
+	                                <tr>
+	                                    <td>
+	                                      <a href="@{Reportes.reporteDiarioVehicular()}">   <span class="glyphicon glyphicon-tasks"> </span> Reporte Diario Vehicular</a>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td>
+	                                      <a href="@{Reportes.controlIngresoKilometraje()}" style="text-align: justify;">   <span class="glyphicon glyphicon-list-alt"> </span> Control de Ingreso y Kilometraje de Vehículos</a>
+	                                    </td>
+	                                </tr>
+	                                 <tr>
+	                                    <td>
+	                                      <a href="@{Reportes.reporteVehiculoFecha()}" style="text-align: justify;">   <span class="glyphicon glyphicon-calendar"> </span> Solicitudes por Vehículo y Fecha</a>
+	                                    </td>
+	                                </tr>
+	                                 <tr>
+	                                    <td>
+	                                      <a href="@{Reportes.calendario()}" style="text-align: justify;">   <span class="glyphicon glyphicon-th"> </span> Solicitudes por Vehículo y Calendario</a>
+	                                    </td>
+	                                </tr>
+	                                <tr>
+	                                    <td>
+	                                      <a href="@{Reportes.consumoCombustible}" style="text-align: justify;">   <span class="glyphicon glyphicon-scale"> </span> Consumo de Combustible</a>
+	                                    </td>
+	                                </tr>
+	                               
+	                            </table>
+	                        </div>
+	                    </div>
+	                </div>
+	           #{/if } <!-- Fin de Menu Reportes -->     
+	           
+	            </div>
+	        </div>
+		#{/if}
+		
+		
+		  <div class=" col-lg-9 col-sm-9 col-md-9">	
+			  	#{if flash.bienvenido}	  	
+				  	<div class="alert alert-success text-justify fade in">		  		
+				  		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+						<span class="glyphicon glyphicon-check"> </span> <b>${flash.bienvenido}</b>
+				  	</div>
+			  	#{/if}
+        	#{doLayout /}        
+         </div>
+         
+         
+         
+		<script>
+			$("[data-toggle=popover]").popover({
+			 	trigger:'hover'
+			 });
+		</script>       	      		        
+       </div><!-- .container -->
+       
+       #{if conectado}
+       <br /><br />
+       <div style="background-color: #EFEFEE; color:#5A5A5A; margin-bottom: 0px; padding: 20px;" >       	
+			<p class="pull-right">	Copyright ©2015 GADMCM. Todos los derechos reservados <b> Dirección:</b> José Mejía E-50 y Simón Bolivar <b>Telf:</b> 3819-250</p>
+			<br />   	
+       </div>
+       #{/if}     
+       
+       
+       		<script>    			    	
+    		//Inicio Proceso paa refrescar Solicitudes Pendientes perfil LOGISTICA
+    			var refrescarPendientes=function(){
+    				
+    				$.ajax({
+    					type:'POST',
+    					url:'@{Solicitudes.contarPendientes}'
+    					
+    				}).success(function(respuesta){
+			        				        		
+			        		if(respuesta>0){
+			    				$("#pendientes").text(respuesta);
+			        		}else{
+			        			$("#pendientes").text('');
+			        		}
+			        });
+    			}
+
+    			setInterval(refrescarPendientes,1000);    
+    			
+    			//Fin Proceso para refrescar Solicitudes Pendientes perfil LOGISTICA
+    			
+    			
+    			//Inicio Proceso refrescar Aprobadas
+    				var refrescarAprobadas=function(){
+    				
+    				$.ajax({
+    					type:'POST',
+    					url:'@{Solicitudes.contarAprobadas}'
+    					
+    				}).success(function(respuesta){
+			        					        	
+    					if(respuesta>0){
+		    				$("#aprobadas").text(respuesta);
+		        		}else{
+		        			$("#aprobadas").text('');
+		        		}
+			        });
+    			}
+    			setInterval(refrescarAprobadas,1000);
+    			//Fin Proceso refrescar Aprobadas
+    			
+    			
+    			//Inicio Proceso refrescar Aprobadas que Salieron los Vehiculos
+	    				var refrescarAprobadasSalida=function(){
+	    				
+	    				$.ajax({
+	    					type:'POST',
+	    					url:'@{Solicitudes.contarAprobadasSalida}'
+	    					
+	    				}).success(function(respuesta){
+				        					        	
+	    					if(respuesta>0){
+			    				$("#aprobadasSalida").text(respuesta);
+			        		}else{
+			        			$("#aprobadasSalida").text('');
+			        		}
+				        });
+	    			}
+	    			setInterval(refrescarAprobadasSalida,1000);
+    			//Fin Proceso refrescar Aprobadas que Salieron los Vehiculos
+    			
+    			
+    			
+    			refrescarPendientes();
+    			refrescarAprobadas();
+    			refrescarAprobadasSalida();
+    		</script>
+       
+       
+       
+       
+    </body>
+    
+    
+    
+    
+    
+</html>

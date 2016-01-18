@@ -1,0 +1,230 @@
+#{extends 'main.html' /}
+#{set title:'Actualizar Vehículo' /}
+
+<form class="form-horizontal" id="formularioNuevo" method="post" action="@{Vehiculos.actualizarVehiculo}">
+<fieldset>
+	
+	<input type="hidden" value="${vehiculo.id}" name="idVehiculo" id="idVehiculo"/>
+
+<!-- Form Name -->
+<legend> <b>Actualización de Vehículo</b> <a href="@{Vehiculos.index()}" class="btn btn-primary  pull-right btn-sm" ><i class="glyphicon glyphicon-eye-open"></i> Ver Todos</a></legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="placa">Placa:</label>  
+  <div class="col-md-6">
+  <input id="placa" name="placa" value="${vehiculo.placa}" placeholder="Ingrese la placa del vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. PIV-957</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="matricula">Matrícula:</label>  
+  <div class="col-md-6">
+  <input id="matricula" value="${vehiculo.matricula}" name="matricula" placeholder="Ingrese la matrícula del vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. 000000</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="marca">Marca:</label>  
+  <div class="col-md-6">
+  <input id="marca" name="marca" value="${vehiculo.marca}"  placeholder="Ingrese la marca de vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. Mazda</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="color">Color:</label>  
+  <div class="col-md-6">
+  <input id="color" name="color"  value="${vehiculo.color}" placeholder="Ingrese el color del vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. Azul</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="Tipo:">Tipo:</label>  
+  <div class="col-md-6">
+  <input id="tipo" name="tipo" value="${vehiculo.tipo}" placeholder="Ingrese el tipo de vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. Camioneta, Moto, Camión, etc.</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="descripcion">Descripción:</label>  
+  <div class="col-md-6">
+  <input id="descripcion" value="${vehiculo.descripcion}" name="descripcion" placeholder="Ingrese la Descripción: del vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. Mazda No.1</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="kilometraje">Kilometraje:</label>  
+  <div class="col-md-6">
+  <input id="kilometraje" name="kilometraje" value="${vehiculo.kilometraje}" placeholder="Ingrese el kilometraje del vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. 140250</span>  
+  </div>
+</div>
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="kilometraje">Combustible:</label>  
+  <div class="col-md-6">
+
+  <input value="${vehiculo.combustible}" id="combustible" name="combustible" placeholder="Ingrese el combustible del vehículo" class="form-control input-md" type="text">
+  <span class="help-block">Ej. 1/2 Tanque</span>  
+  </div>
+</div>
+
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="idCustodio">Custodio</label>
+  <div class="col-md-6">
+    <select id="idCustodio" name="idCustodio" class="form-control selectpicker" data-live-search="true" title='--Seleccione--'>
+    	#{list items:conductores,as:"conductor"}
+    		#{if conductor.id==vehiculo.custodio.id}
+    			<option selected="selected" value="${conductor.id}" data-subtext="${conductor.cedula}">${conductor.nombre} ${conductor.apellido}</option>
+    		#{/if}
+    		#{else}    		
+    			<option value="${conductor.id}" data-subtext="${conductor.cedula}">${conductor.nombre} ${conductor.apellido}</option>
+    		#{/else}
+    	#{/list}
+    </select>
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-4 control-label" for=""></label>
+  <div class="col-md-8">
+    <button id="" name="" class="btn btn-success" > <i class="glyphicon glyphicon-ok"> </i> Guardar</button>
+    <a href="@{Vehiculos.index}" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"> </i> Cancelar</a>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+<script>
+
+	$("#formularioNuevo").validate({
+		rules:{
+			placa:{
+				required:true,
+				minlength:4,
+				remote:{
+					url:"@{Vehiculos.verificarPlacaEditar}",
+					type:"post",
+					data:{
+						placa: function(){
+							
+							return $("#placa").val();
+						},
+						id: function(){							
+							return $("#idVehiculo").val();
+						}
+					}
+				}
+			},
+			matricula:{
+				required:true,
+			},
+			marca:{
+				required:true,
+			},
+			color:{
+				required:true,
+			},
+			tipo:{
+				required:true,
+			},
+			descripcion:{
+				required:true,
+			},
+			kilometraje:{
+				required:true,
+				digits:true
+			},
+			idCustodio:{
+				required:true
+			},
+			combustible:{
+				required:true
+			}
+			
+			
+			
+		},
+		messages:{
+			placa:{
+				required:"Por favor ingrese la placa del vehículo.",
+				minlength:"La placa debe tener mínimo 4 caracteres.",
+				remote:"Está placa ya está registrada en otro vehículo."
+				
+			},
+			matricula:{
+				required:"Por favor ingrese la matrícula del vehículo.",
+			},
+			marca:{
+				required:"Por favor ingrese la marca del vehículo.",
+			},
+			color:{
+				required:"Por favor indique el color del vehículo.",
+			},
+			tipo:{
+				required:"Por favor indique el tipo de vehículo.",
+			},
+			descripcion:{
+				required:"Por favor indique la descripción de vehículo.",
+			},
+			kilometraje:{
+				required:"Por favor indique el kilometraje actual del vehículo.",
+				digits:"Este campo acepta solo números"
+			},
+			idCustodio:{
+				required:"Por favor seleccione el custodio del vehículo.",
+			}
+			,
+			combustible:{
+				required:"Por favor indique el combustible del vehículo."
+			}
+			
+			
+		}
+		
+		
+	}).settings.ignore = ':not(select:hidden, input:visible, textarea:visible)';
+
+	
+	 $('.selectpicker').selectpicker();
+	 
+</script>
+
+<style>
+	
+	#placa, #matricula{
+		text-transform: uppercase;
+	}
+		
+	::-webkit-input-placeholder { /* WebKit browsers */
+    text-transform: none;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	    text-transform: none;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	    text-transform: none;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10+ */
+	    text-transform: none;
+	}
+	
+</style>

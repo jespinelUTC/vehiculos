@@ -1,0 +1,297 @@
+#{set title:'solicitudPDF.html' /}
+
+<html>
+	<head>
+	
+		<meta charset="utf-8" />
+		<style>
+		
+			body{
+				font-family: Arial, Helvetica, sans-serif;
+				 text-transform: uppercase;
+			}
+			
+			p{
+				line-height: 24px;
+			}
+			.contenedorPrincipal{
+	 			 border-radius: 15px 50px 30px 5px;
+			     border: 1px solid black;
+			 }
+			 
+			 .escudo{
+	 			margin-left: 0px;
+	 			margin-right: 100px;
+	 			margin-top: 0px;
+	 		}
+	 		
+	 		.encabezado{
+	 			margin-top: -40px;
+	 			font-size: 13px;
+	 		}
+			 
+			
+		</style>		
+	
+	</head>
+	
+	<body>
+		
+		<div class="contenedorPrincipal">
+			
+			<table>
+				<td>
+					<img src="@{'/public/images/mejia1.png'}" height="60px" class="escudo"/>
+				</td>
+				<td>
+					<div class="encabezado">
+						<center>
+								<h3 style="margin-bottom: 0px;">GOBIERNO A.D. MUNICIPAL DEL CANTÓN MEJÍA</h3>	
+								DIRECCIÓN ADMINISTRATIVA Y TALENTO HUMANO																												
+						</center>												
+					</div>						
+				</td>
+			</table>
+			
+			<h5 style="margin-left:600px; margin-top: -69px; margin-bottom: 0px;">N° ${solicitud.numero}</h5>
+			
+			<center><h3 style="margin-left: -20px; margin-top: 20px; margin-bottom: -5px;">SOLICITUD DE SALIDA DE VEHÍCULOS</h3></center>
+			<hr />
+			<br />
+			
+			<div style="font-size:12px;">
+			
+			<!-- Parte Superior -->
+				<div style="padding: 10px; margin-top:-25px;">
+					<table>
+						<tr>
+							<td style="width: 350px;"><b>LUGAR:</b> ${solicitud.lugar}</td>
+							<td style="width: 350px;"><b>FECHA:</b> ${fecha}</td>
+						</tr>										
+					</table>
+				</div>		
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 600px;"><b>NOMBRES Y APELLIDOS DEL SOLICITANTE:</b> ${solicitud.nombreSolicitante}</td>
+							<td style="width: 200px;"><b>C.I.:</b> ${solicitud.cedulaSolicitante}</td>
+						</tr>										
+					</table>
+				</div>		
+				
+				
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 350px;"><b>CARGO:</b> ${solicitud.cargoSolicitante}</td>
+							<td style="width: 350px;"><b>DIRECCIÓN/DEPARTAMENTO:<b> ${solicitud.direccionSolicitante} </td>
+						</tr>										
+					</table>
+				</div>	
+				
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td>
+								<p style="text-align: justify; margin: 0px;  height: 140px;">
+									<b>MOTIVO DE LA MOVILIZACIÓN:</b> ${solicitud.motivoMovilizacion}								
+								</p>
+							
+							</td>
+							
+						</tr>										
+					</table>
+				</div>	
+				
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 350px;"><b>LUGAR DE ORIGEN:</b> ${solicitud.lugarOrigen}</td>
+							<td style="width: 350px;"><b>LUGAR DE DESTINO:</b> ${solicitud.lugarDestino}</td>
+						</tr>										
+					</table>
+				</div>	
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 350px;"><b>HORA DE SALIDA:</b> ${solicitud.horaSalida}</td>
+							<td style="width: 350px;"><b>TIEMPO DURACIÓN COMISIÓN:</b> ${solicitud.tiempoDuracionComision}</td>
+						</tr>										
+					</table>
+				</div>			
+				
+				
+					
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td>
+								<p style="text-align: justify; margin: 0px;  height: 50px;">
+									<b>OBSERVACIONES:</b> ${solicitud.observaciones}								
+								</p>
+							
+							</td>
+							
+						</tr>										
+					</table>
+				</div>	
+				
+				<br><br> <br>
+				
+				<div style="padding: 10px; margin-top:-15px;">
+				
+					<center>
+					
+						_____________________________________ <br />	
+						FIRMA SOLICITANTE
+						
+					</center>
+							
+				</div>	
+				
+				
+				<!-- Fin Parte Superior -->
+				<hr />
+				<div style="padding: 10px; margin-top:-30px; font-size: 18px;">
+					<center> <h6>ORDEN DE MOVILIZACIÓN</h6> </center>
+				</div>
+				
+				
+				<div style="padding: 10px; margin-top:-25px;">
+					<table>
+						<tr>
+							<td style="width: 420px;"><b>VEHÍCULO ASIGNADO:</b> ${solicitud.ordenMovilizacion.vehiculoAsignado}</td>
+							<td style="width: 350px;"><b>CUSTODIO:</b> ${solicitud.ordenMovilizacion.custodio}</td>
+						</tr>										
+					</table>
+				</div>
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 300px;"><b>MARCA:</b> ${solicitud.ordenMovilizacion.marca}</td>
+							<td style="width: 300px;"><b>PLACA:</b> ${solicitud.ordenMovilizacion.placa}</td>
+							<td style="width: 300px;"><b>MATRÍCULA:</b> ${solicitud.ordenMovilizacion.matricula}</td>
+							<td style="width: 200px;"><b>COLOR:</b> ${solicitud.ordenMovilizacion.color}</td>
+						</tr>										
+					</table>
+				</div>		
+				
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 650px;"><b>NOMBRES Y APELLIDOS CONDUCTOR:</b> ${solicitud.ordenMovilizacion.conductor}</td>
+							<td style="width: 100px;"><b>C.I.:</b> ${solicitud.ordenMovilizacion.cedulaConductor}</td>
+						</tr>										
+					</table>
+				</div>
+				
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td style="width: 650px;"><b>NOMBRES Y APELLIDOS SERVIDOR A CARGO DEL VEHÍCULO:</b> ${solicitud.ordenMovilizacion.servidorAcargo}</td>
+							<td style="width: 100px;"><b>C.I.:</b>${solicitud.ordenMovilizacion.cedulaServidorAcargo}</td>
+						</tr>										
+					</table>
+				</div>	
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td><b>NOMBRES Y APELLIDOS FUNCIONARIO AUTORIZADO:</b> ${solicitud.ordenMovilizacion.funcionarioAutorizado}</td>						
+						</tr>										
+					</table>
+				</div>	
+				
+				
+				<div style="padding: 10px; margin-top:-15px;">
+					<table>
+						<tr>
+							<td><b>COMBUSTIBLE DESPACHADO:</b>
+							
+								#{if solicitud.ordenMovilizacion.ordenCombustible}
+								 	${solicitud.ordenMovilizacion.ordenCombustible.concepto} - ${solicitud.ordenMovilizacion.ordenCombustible.cantidad} GALONES
+								 #{/if}
+								 #{else}
+								 	XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+								 #{/else}								 
+							 </td>						
+						</tr>										
+					</table>
+				</div>						
+				<br>
+				<br>
+				<br>
+				<br>
+				<div style="padding: 10px; margin-top:-20px;">				
+					<center>					
+						_____________________________________ <br />	
+						FIRMA DE AUTORIZACIÓN						
+					</center>							
+				</div>	
+				
+				<hr>
+				<div style="padding: 10px; margin-top:-30px; font-size: 18px;">
+					<center> <h6>DESPACHO DE VEHÍCULOS</h6> </center>
+				</div>
+				
+				<div style="padding: 10px; margin-top:-30px;">
+					<table>
+						<tr>
+							<td style="width: 350px;"><b>HORA DE SALIDA:</b> ${solicitud.despachoVehiculo.horaSalida}</td>
+							<td style="width: 350px;"><b>KILOMETRAJE DE SALIDA:</b> ${solicitud.despachoVehiculo.kilometrajeSalida} Km</td>
+						</tr>										
+					</table>
+				</div>	
+				
+				
+				<div style="padding: 10px; margin-top:-20px;">
+					<table>
+						<tr>
+							<td style="width: 350px;"><b>HORA DE RETORNO:</b> ${solicitud.despachoVehiculo.horaRetorno}</td>
+							<td style="width: 350px;"><b>KILOMETRAJE DE RETORNO:</b> ${solicitud.despachoVehiculo.kilometrajeRetorno} Km</td>
+						</tr>										
+					</table>
+				</div>
+				
+				
+				<div style="padding: 10px; margin-top:-25px;">
+					<table>
+						<tr>
+							<td> 
+								<p style="text-align: justify; margin: 0px; height: 50px;">
+									<b>OBSERVACIONES:</b> ${solicitud.despachoVehiculo.observaciones}								
+								</p>
+							</td>							
+						</tr>										
+					</table>
+				</div>		
+					
+				
+			</div>
+			<br>
+			<br>
+			
+			<div style="padding: 10px; margin-top:-20px; font-size: 12px;">				
+					<center>					
+						_____________________________________ <br />	
+						FIRMA DESPACHADOR					
+					</center>							
+				</div>	
+				
+		
+		</div>		
+		
+		
+	</body>
+
+
+
+</html>

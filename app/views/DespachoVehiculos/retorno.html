@@ -1,0 +1,138 @@
+#{extends 'main.html' /}
+#{set title:'Registrar Retorno' /}
+
+
+<form class="form-horizontal" method="post" id="formularioRetorno" action="@{DespachoVehiculos.registrarRetorno(solicitud.id)}">
+	<fieldset>
+		
+		<input type="hidden" name="idSolicitud" value="${solicitud.id}" />
+		
+		<!-- Form Name -->
+		<legend> <b>Registro de Retorno del Vehículo: <span style="font-weight: normal; font-size: 15px;"> ${solicitud.ordenMovilizacion.placa} - ${solicitud.ordenMovilizacion.vehiculoAsignado} </span></b> <a href="@{Solicitudes.aprobadas()}" class="btn btn-primary pull-right"> <i class="fa fa-arrow-left"> </i> <b>   Volver </b> </a>  </legend>
+		
+		
+			<!-- Text input-->
+		<div class="form-group well">		    
+		  <div class="col-md-6 text-center">
+		 	<b>Hora de Salida:</b> ${solicitud.despachoVehiculo.horaSalida}		  
+		  </div>		   
+		  <div class="col-md-6 text-center">
+		 	<b>Kilometraje de Salida:</b> ${solicitud.despachoVehiculo.kilometrajeSalida}		  
+		  </div>
+		</div>
+		
+
+		
+		
+		
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="horaRetorno">Hora de Retorno:</label>  
+		  <div class="col-md-5">
+		  <input id="horaRetorno" name="horaRetorno" placeholder="Ingrese la hora de retorno del vehículo" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 11:00 am</span>  
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="kilometrajeRetorno">Kilometraje de Retorno:</label>  
+		  <div class="col-md-5">
+		  <input id="kilometrajeRetorno" name="kilometrajeRetorno" placeholder="Ingrese el kilometraje de retorno del vehículo" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 214380</span>  
+		  </div>
+		</div>
+		
+			<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="combustibleRetorno">Combustible de Retorno:</label>  
+		  <div class="col-md-5">
+		  <input id="combustibleRetorno" name="combustibleRetorno" placeholder="Ingrese la cantidad de combustible de retorno del vehículo" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 1/4 Tanque</span>  
+		  </div>
+		</div>
+		
+		<!-- Textarea -->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="observaciones">Observaciones:</label>
+		  <div class="col-md-6">                     
+		    <textarea class="form-control" id="observaciones" name="observaciones">${solicitud.despachoVehiculo.observaciones}</textarea>
+		  </div>
+		</div>
+
+		<!-- Button (Double) -->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for=""></label>
+		  <div class="col-md-8">
+		    <button type="submit" class="btn btn-success"> <i class="glyphicon glyphicon-ok"> </i>  Aceptar</button>
+		    <a href="@{Solicitudes.aprobadas}" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"> </i>  Cancelar</a>
+		  </div>
+		</div>
+	
+	</fieldset>
+</form>
+
+
+<script>
+
+	$("#formularioRetorno").validate({		
+		rules:{
+			horaRetorno:{
+				required:true
+			},
+			kilometrajeRetorno:{
+				required:true,
+				digits:true,
+				remote:{
+					url:"@{DespachoVehiculos.validarKilometraje}",
+					type:"post",
+					data:{
+						idVehiculo:${solicitud.ordenMovilizacion.idVehiculo},
+						kilometraje:function(){
+							return $("#kilometrajeRetorno").val();
+						}
+					}
+				}
+			},
+			combustibleRetorno:{
+				required:true
+			},
+			observaciones:{	 				
+ 				maxlength:150
+ 			}
+		},
+		messages:{			
+			horaRetorno:{
+				required:"Por favor ingrese la hora de retorno del vehículo."
+			},
+			kilometrajeRetorno:{
+				required:"Por favor ingrese el kilometraje de retorno del vehículo.",
+				digits:"Este campo solo acepta números.",
+				remote:"El kilometraje ingresado es menor que el kilometraje actual del vehículo"
+			},
+			combustibleRetorno:{
+				required:"Por favor ingrese la cantidad de combustible de retorno."
+			},
+			observaciones:{			
+				maxlength:"Este campo tiene un límite de 160 caracteres"			
+			}
+		}		
+	});
+	
+	
+	$(function() {
+        $('#horaRetorno').timepicker();
+    });
+	
+	
+	 $('#formularioRetorno').submit(function() {
+			if($("#formularioRetorno").valid()){	    		
+				return confirm("¿Está seguro que desea guardar el registro de retorno del vehículo, recuerde que luego de guardarlo no se podrá editar?");					    	
+	    	}else{
+	    		return false;
+	    	}    		    		    	
+	    });
+	
+
+</script>

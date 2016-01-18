@@ -1,0 +1,101 @@
+#{extends 'main.html' /}
+#{set title:'Solicitudes Finalizadas' /}
+
+
+<legend>
+	<b>Solicitudes Finalizadas <span style="font-size: 12px; font-style: italic; font-weight: normal;">(El formato de fecha usado es año-mes-dia)</span> </b> 
+</legend>
+
+
+
+
+#{if flash.finalizada}
+	<div class="alert alert-success">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close"> &times;</a>
+		<i class="glyphicon glyphicon-ok"> </i> ${flash.finalizada} 	 	
+		 &nbsp;  
+		<a href="@{Solicitudes.solicitudPDF(flash.idSolicitud)}" target="_blank" class="btn btn-success"> <i class="glyphicon glyphicon-print"> </i>    <b> Imprimir </b></a>
+	</div>		
+#{/if}
+
+#{if solicitudes}
+<table class="table table-striped table-hover" id="solicitudesFinalizadas">
+
+	<!-- 
+	<tr>		
+		<td colspan="11">
+			<a download="solicitudesFinalizadas.xls"   href="#"   onclick="return ExcellentExport.excel(this, 'solicitudesFinalizadas', 'Hoja1');" class="pull-right"> <img src="@{'/public/images/iconos/export_excel.png'}" alt="" /> Export table to Excel</a>			
+		</td>	
+	</tr>
+	 -->
+	 
+	<tr>
+		<th class="alert alert-warning text-center">No</th>
+		<th class="alert-warning text-center">PLACA</th>
+		<th class="alert-warning text-center">VEHÍCULO</th>
+		<th class="alert-warning text-center">FECHA</th>
+		<th class="alert-warning text-center">SOLICITANTE</th>	
+		<th class="alert-warning text-center">DIRECCIÓN</th>		
+		<th class="alert-warning text-center">ORIGEN</th>
+		<th class="alert-warning text-center">DESTINO</th>					
+		<th class="alert-warning text-center">ESTADO</th>			
+		<th class="alert-warning text-center" colspan="2">OPCIONES</th>	
+	</tr>
+	
+	#{paginate.list items:solicitudes, as:'solicitud'}
+			#{if flash.nuevosolicitud}
+				#{if flash.nuevosolicitud==solicitud.numero}
+				 <tr class="info">
+				#{/if}
+				#{else}
+				 <tr >
+				#{/else}
+			#{/if}			
+				<td class="text-center">${solicitud.numero}</td>
+				<td class="text-center">${solicitud.ordenMovilizacion.placa}</td>
+				<td class="text-center">${solicitud.ordenMovilizacion.vehiculoAsignado}</td>
+				<td class="text-center">${String.valueOf(solicitud.fecha).substring(0,10)}</td>					
+				<td class="text-center">${solicitud.nombreSolicitante}</td>		
+				<td class="text-center">${solicitud.direccionSolicitante}</td>		
+				<td class="text-center">${solicitud.lugarOrigen}</td>			
+				<td class="text-center">${solicitud.lugarDestino}</td>							
+				
+				#{if solicitud.estado==-1}
+					<td class="text-center alert-danger">Esperando Aprobación</td>	
+				#{/if}
+				
+				#{if solicitud.estado==0}
+					<td class="text-center alert-success">Aprobada</td>	
+				#{/if}
+				
+				#{if solicitud.estado==1}
+					<td class="text-center alert-info">Finalizada</td>	
+				#{/if}																		
+				<td class="text-center"> <a href="@{Solicitudes.solicitudPDF(solicitud.id)}" target="_blank" class="btn btn-primary btn-circle"  data-toggle="popover"  data-html="true"   data-content="<div class='text-center'> Ver Solicitud de Salida de Vehículos </div>"  data-placement="bottom"> <i class="icon icon-print"></i></a> </td>				
+				#{if conectado.perfil.descripcion=="LOGISTICA"}
+					<td class="text-center">
+						#{if solicitud.ordenMovilizacion.ordenCombustible}
+					 	<a href="@{OrdenesCombustible.ordenPDF(solicitud.id)}" target="_blank" class="btn btn-warning btn-circle"  data-toggle="popover"  data-html="true"   data-content="<div class='text-center'> Ver Orden de Combustible</div>"  data-placement="bottom"> <i class="icon icon-print"></i></a>
+					 	#{/if}	
+					 	#{else}				 		
+					 		<b data-toggle="popover"  data-html="true"   data-content="<div class='text-center'> Combustible no asignado</div>"  data-placement="bottom">NA</b>
+					 		
+					 	#{/else}			 
+					 </td>	
+				#{/if}															
+			</tr>			
+	#{/paginate.list}
+</table>
+<div class="text-center" style="margin-top:-30px; margin-bottom: 5px; font-size: 12px;">
+	<b>#{paginate.controls items:solicitudes/} </b>
+	<div style="margin-top:-35px;"> <b> #{paginate.summary items:solicitudes/} </b></div>
+</div>
+
+#{/if}
+#{else}
+	<div class="alert alert-danger">	
+		No hay solicitudes finalizadas.
+	</div>
+#{/else}
+
+

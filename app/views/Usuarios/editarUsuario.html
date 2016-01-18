@@ -1,0 +1,149 @@
+#{extends 'main.html' /}
+#{set title:'Actualización de Datos' /}
+
+<form class="form-horizontal" id="formNuevo" method="POST" action="@{Usuarios.actualizarUsuario()}">
+<fieldset>
+
+<!-- Form Name -->
+<legend> <b> Actualización de Datos </b> <a href="@{Usuarios.index()}" class="btn btn-primary  pull-right btn-sm" ><i class="glyphicon glyphicon-arrow-left"></i> Volver</a></legend>
+
+<input type="hidden" name="idUsuario" value="${usuarioEditar.id}"  id="idUsuario"/>
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="cedula">Cédula:</label>  
+  <div class="col-md-8">
+  <input id="cedula" name="cedula" value="${usuarioEditar.cedula}"  placeholder="Ingrese el número de cédula" class="form-control input-md" type="text">
+  <span class="help-block">Ej: 1782736199</span>  
+  </div>
+</div>
+
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="apellido">Apellidos:</label>  
+  <div class="col-md-8">
+  <input id="apellido" name="apellido" value="${usuarioEditar.apellido}"  placeholder="Ingrese los apellidos" class="form-control input-md" type="text">
+  <span class="help-block">Ej. Valencia Rojas</span>  
+  </div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="nombre">Nombres:</label>  
+  <div class="col-md-8">
+  <input id="nombre" name="nombre" value="${usuarioEditar.nombre}"  placeholder="Ingrese los nombres" class="form-control input-md" type="text">
+  <span class="help-block">Ej. Diana Marcela</span>  
+  </div>
+</div>
+
+
+<!-- Select Basic -->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="selectbasic">Perfil:</label>
+  <div class="col-md-8">
+    <select id="perfil" name="perfil" class="form-control">
+    	<option value="">--Seleccione un perfil--</option>
+    	
+    	#{list items:perfiles, as:'perfil'}
+    		<option value="${perfil.id}"> ${perfil.descripcion} </option>
+    	#{/list}
+    	
+    </select>
+    <span class="help-block">El perfil condiciona las actividades que se pueden realizar dentro el sistema.</span>  
+  </div>
+</div>
+
+<!-- Button (Double) -->
+<div class="form-group">
+  <label class="col-md-3  control-label" for="guardar"></label>
+  <div class="col-md-8">
+    <button id="guardar" name="guardar" class="btn btn-success"> <i class="glyphicon glyphicon-ok"> </i> Actualizar</button>
+    <a id="cancelar" href="@{Usuarios.index()}" name="cancelar" class="btn btn-danger" > <i class="glyphicon glyphicon-remove"> </i> Cancelar</a>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
+
+<script>
+
+
+		//alert($("#perfil").val());
+	
+		var idBdd=${usuarioEditar.perfil.id};
+		#{list items:perfiles, as:'perfil'}				
+						if(idBdd==${perfil.id}){
+							$("#perfil").val(idBdd);							
+						}
+		#{/list}
+
+	$("#formNuevo").validate({
+		
+		rules:{
+			cedula:{
+				required:true,
+				cedula:true,
+				remote:{
+					url: "@{Usuarios.verificarCedulaEditar}",
+			        type: "post",
+			        data: {
+				          cedula: function() {						        	  
+				            return $("#cedula").val();
+			              },
+			              id:function(){
+			            	  return $("#idUsuario").val();
+			              }
+				        }
+		      		}
+				
+			},
+			
+			apellido:{
+				required:true,
+				lettersonly: true
+			},
+			
+			nombre:{
+				required:true,
+			},
+			
+			perfil:{
+				required:true
+			}
+			
+			
+		},
+		messages:{
+			cedula:{
+				required:"Por favor ingrese el número de cédula.",
+				cedula:"El número de cédula ingresado no es valido",
+				remote: "Esta cédula ya está registrada en otro usuario"
+			},
+			apellido:{
+				required:"Por favor ingrese los apellidos.",
+				lettersonly:"Este campo solo acepta letras."				
+			},			
+			nombre:{
+				required:"Por favor ingrese los nombres."
+			},
+			perfil:{
+				required:"Por favor seleccione un perfil"
+			}			
+		}
+		
+		
+	});
+	
+	
+	
+	
+</script>
+
+<style>
+	
+	label.error{
+		margin-bottom: 0px;
+	}
+</style>

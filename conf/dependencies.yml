@@ -1,0 +1,7 @@
+# Application dependencies
+
+require:
+    - play
+    - play -> secure
+    - play -> pdf 0.9
+    - play -> paginate 0.12

@@ -1,0 +1,262 @@
+#{extends 'main.html' /}
+#{set title:'Registro de Salida' /}
+
+
+<form class="form-horizontal" method="post" id="formularioSalida" action="@{DespachoVehiculos.registrarSalida()}">
+	<fieldset>
+		
+		<input type="hidden" name="idSolicitud" value="${solicitud.id}" />
+		
+		<!-- Form Name -->
+		<legend> <b>Registro de Salida del Vehículo: <span style="font-weight: normal; font-size: 15px;"> ${solicitud.ordenMovilizacion.placa} - ${solicitud.ordenMovilizacion.vehiculoAsignado} - ${vehiculo.kilometraje} Km </span></b> <a href="@{Solicitudes.aprobadas()}" class="btn btn-primary pull-right">  <b>  Volver </b>  </a>  </legend>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="horaSalida">Hora de Salida:</label>  
+		  <div class="col-md-5">
+		  <input id="horaSalida" name="horaSalida" placeholder="Ingrese la hora de salida del vehículo" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 08:00 am</span>  
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="kilometrajeSalida">Kilometraje de Salida:</label>  
+		  <div class="col-md-5">
+		  <input id="kilometrajeSalida" name="kilometrajeSalida" placeholder="Ingrese el kilometraje de salida" class="form-control input-md" type="text">
+		  <span class="help-block">Ej. 214355</span>  
+		  </div>
+		</div>
+		
+		<!-- Text input-->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="despachador">Despachador:</label>  
+		  <div class="col-md-6">
+		  <input id="despachador" name="despachador" placeholder="" value="${conectado.nombre+' '+conectado.apellido}" disabled="disabled" class="form-control input-md" type="text">
+		  <span class="help-block">El nombre y apellido se toma del usuario conectado</span>  
+		  </div>
+		</div>
+		
+		<!-- Textarea -->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for="observaciones">Observaciones:</label>
+		  <div class="col-md-6">                     
+		    <textarea class="form-control" id="observaciones" name="observaciones"></textarea>
+		  </div>
+		</div>
+
+		<!-- Button (Double) -->
+		<div class="form-group">
+		  <label class="col-md-4 control-label" for=""></label>
+		  <div class="col-md-8">
+		    <button type="submit" class="btn btn-success"> <i class="glyphicon glyphicon-ok"> </i>  Aceptar</button>
+		    <a href="@{Solicitudes.aprobadas}" class="btn btn-danger"> <i class="glyphicon glyphicon-remove"> </i>  Cancelar</a>
+		  </div>
+		</div>
+	
+	</fieldset>
+</form>
+
+<br />
+<legend><b>Datos de la Solicitud</b></legend>
+
+<div class="well">
+	 <center><b>Solicitud de Salida de Vehículos No. ${solicitud.numero}</b> </center> <br />
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Lugar: </b> ${solicitud.lugar}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Fecha: </b>${String.valueOf(solicitud.fecha).substring(0,10)}
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos del Solicitante: </b> ${solicitud.nombreSolicitante}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>C.I.: </b> ${solicitud.cedulaSolicitante}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Cargo: </b> ${solicitud.cargoSolicitante}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Dirección/Departamento: </b> ${solicitud.direccionSolicitante}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Motivo de la Movilización: </b>  ${solicitud.motivoMovilizacion}
+			</p>
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Lugar de Origen: </b> ${solicitud.lugarOrigen}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Lugar de Destino: </b> ${solicitud.lugarDestino}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Hora de Salida: </b> ${solicitud.horaSalida}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Tiempo Duración Comisión: </b> ${solicitud.tiempoDuracionComision}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Observaciones: </b>  ${solicitud.observaciones}
+			</p>
+		</div>		
+	</div>
+
+	<center> <b> Orden de Movilización </b> </center> <br />
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Vehículo Asignado: </b> ${solicitud.ordenMovilizacion.vehiculoAsignado}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Custodio: </b> ${solicitud.ordenMovilizacion.custodio}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Marca: </b> ${solicitud.ordenMovilizacion.marca}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Placa: </b> ${solicitud.ordenMovilizacion.placa}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Matrícula: </b> ${solicitud.ordenMovilizacion.matricula}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Color: </b> ${solicitud.ordenMovilizacion.color}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-6">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Nombres y Apellidos Conductor: </b>  ${solicitud.ordenMovilizacion.conductor}
+			</p>
+		</div>	
+		<div class="col-md-6">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>C.I.: </b>  ${solicitud.ordenMovilizacion.cedulaConductor}
+			</p>
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos Servidor a Cargo del Vehículo: </b> ${solicitud.ordenMovilizacion.servidorAcargo}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>C.I.: </b> ${solicitud.ordenMovilizacion.cedulaServidorAcargo}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Nombres y Apellidos Funcionario Autorizado: </b> ${solicitud.ordenMovilizacion.funcionarioAutorizado}
+		</div>
+		
+	</div>
+	
+</div>
+
+
+<script>
+	
+	
+	$("#formularioSalida").validate({
+		rules:{
+			horaSalida:{
+				required:true
+			},
+			kilometrajeSalida:{
+				required:true,
+				digits:true,
+				remote:{
+					url:"@{DespachoVehiculos.validarKilometraje}",
+					type: "post",
+					data:{
+						idVehiculo:${solicitud.ordenMovilizacion.idVehiculo},
+						kilometraje:function(){
+							return $("#kilometrajeSalida").val();
+						}
+					}
+					
+				}
+			},
+			observaciones:{			
+				maxlength:160
+				
+			}
+			
+		},
+		messages:{
+			horaSalida:{
+				required:"Ingrese la hora de salida"
+			},
+			kilometrajeSalida:{
+				required:"Indique el kilometraje del vehículo",
+				digits:"Este campo solo acepta números",
+				remote: "El kilometraje ingresado es menor que el kilometraje actual del vehículo"
+			},
+			observaciones:{			
+				maxlength:"Este campo tiene un límite de 160 caracteres"			
+			}
+			
+		}		
+	});
+	
+	   $(function() {
+           $('#horaSalida').timepicker();
+       });
+	  
+	   
+	   $('#formularioSalida').submit(function() {
+			if($("#formularioSalida").valid()){	    		
+				return confirm("¿Está seguro que desea guardar el registro de salida del vehículo, recuerde que luego de guardarlo no se podrá editar?");					    	
+	    	}else{
+	    		return false;
+	    	}    		    		    	
+	    });
+	
+
+
+</script>
+
+

@@ -1,0 +1,289 @@
+#{extends 'main.html' /}
+#{set title:'Nueva orden' /}
+
+
+
+<form method="POST" class="form-horizontal" id="formularioCombustible" style="font-size: 12px;" action="@{OrdenesCombustible.guardarOrden()}" >
+	<input type="hidden" value="${solicitud.id}" name="idSolicitud" />
+	<legend> <b>Nueva Orden de Combustible</b> <a id="verSolicitud" style="font-size: 12px;" class="pull-right">Solicitud No. ${solicitud.numero}</a></legend>
+	
+	<!-- Text input-->
+	<div class="form-group">
+	  <div class="col-md-12">		  
+	  	 <table class="table table-striped table-hover table-bordered">
+	  	 	<tr>
+	  	 		<th class="text-center success">CONCEPTO</th>
+	  	 		<th class="text-center success">CANTIDAD</th>
+	  	 		<th class="text-center success">VALOR UNITARIO USD</th>
+	  	 	</tr>
+	  	 	
+	  	 	<tr>
+	  	 		<td>
+	  	 			<select name="concepto" id="concepto" class="form-control">
+	  	 				
+	  	 				<option value="">-- Seleccione el concepto --</option>
+	  	 				<option value="GASOLINA SUPER">GASOLINA SUPER</option>
+	  	 				<option value="GASOLINA EXTRA">GASOLINA EXTRA</option>
+	  	 				<option value="DIESEL">DIESEL</option>
+	  	 			</select>
+	  	 		</td>
+	  	 		
+	  	 		<td> <input type="text"  class="form-control" name="cantidad" id="cantidad" /> <span class="help-block">Ej. 55.00</span>   </td>
+	  	 		<td> <input type="text"  class="form-control" name="valor" id="valor" /> <span class="help-block">Ej. 1.037</span> </td>
+
+	  	 	</tr>
+	  	 	
+	  	 	<!-- 
+	  	 	<tr>
+	  	 		<td class="text-center" >GASOLINA SUPER</td>
+	  	 		<td> <input type="text" class="form-control" value="0"/> </td>
+	  	 		<td> <input type="text" class="form-control" value="0"/> </td>
+	  	 	</tr>
+	  	 	
+	  	 	<tr>
+	  	 		<td class="text-center">GASOLINA EXTRA</td>
+	  	 		<td> <input type="text" class="form-control" value="0"/> </td>
+	  	 		<td> <input type="text" class="form-control" value="0"/> </td>
+	  	 	</tr>
+	  	 	
+	  	 	
+	  	 	<tr>
+	  	 		<td class="text-center">DIESEL</td>
+	  	 		<td> <input type="text" class="form-control" value="0"/> </td>
+	  	 		<td> <input type="text" class="form-control" value="0"/> </td>
+	  	 	</tr>
+	  	 	 -->
+	  	 	 
+	  	 	<tr>
+	  	 		<td class="text-center">TOTAL</td>
+	  	 		<td> <input type="text" id="totalCantidad" class="form-control" value="0" disabled="disabled"/> </td>
+	  	 		<td> <input type="text" id="totalValor"  class="form-control" disabled="disabled" value="0"/> </td>
+	  	 		
+	  	 		<input type="hidden" id="total" name="total" class="form-control" value="0"/>
+	  	 		
+	  	 		
+	  	 	</tr>				  	 	
+	  	 </table>
+	  	 </div>
+	  </div>
+	  	
+	   <hr style="margin-top:-15px;"/>
+		
+	  	<div class="form-group">
+		  	<label for="" class="col-md-3 control-label"> ESTACIÓN DE SERVICIO:</label>
+		  	<div class="col-md-9">
+		  		<input name="estacion" id="estacion" type="text" class="form-control input-md" placeholder="Ingrese el nombre de la estación de servicio" />
+		  		
+		  	</div>		  	
+	  	</div>
+
+  		 <div class="form-group">
+	  		  	<label for="" class="col-md-3 control-label">OBSERVACIONES:</label>			  			
+		  		<div class="col-md-9">
+		  			<textarea name="observaciones" id="observaciones" rows="3" class="form-control" placeholder="Ingrese las observaciones de la orden de combustible"></textarea>
+		  		</div>
+  		</div>
+  		
+  		
+  		 <div class="form-group">
+	  		  	<label for="" class="col-md-3 control-label"></label>			  			
+		  		<div class="col-md-9">
+	  			   <button id="guardar" name="guardar" onclick="calcularTotal();" class="btn btn-success" type="submit"> <i class="glyphicon glyphicon-ok"> </i> Guardar</button>
+   					<a id="cancelar" href="@{Solicitudes.aprobadas()}" class="btn btn-danger" > <i class="glyphicon glyphicon-remove"> </i> Cancelar</a>		  			
+		  		</div>
+  		</div>	
+  		
+  		<input type="hidden" id="suma" name="suma" />
+	
+</form>
+
+<style>
+	
+	.form-control,.selectpicker{
+		font-size: 12px;
+	}
+	
+</style>
+
+
+
+
+
+
+  <div id="detallesSolicitud" style="display: none;">
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Vehículo: </b> ${solicitud.ordenMovilizacion.vehiculoAsignado}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Combustible: </b> ${vehiculo.combustible}	
+		</div>		
+	</div>
+
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Motivo de la Movilización: </b>  ${solicitud.motivoMovilizacion}
+			</p>
+		</div>		
+	</div>
+	
+	
+	<div class="row bg-danger" style="padding: 10px;">	
+		<div class="col-md-6">
+			<b>Lugar de Origen: </b> ${solicitud.lugarOrigen}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Lugar de Destino: </b> ${solicitud.lugarDestino}	
+		</div>		
+	</div>
+	
+	
+	<div class="row">	
+		<div class="col-md-6">
+			<b>Hora de Salida: </b> ${solicitud.horaSalida}
+		</div>
+		
+		<div class="col-md-6">		
+			<b>Tiempo Duración Comisión: </b> ${solicitud.tiempoDuracionComision}	
+		</div>		
+	</div>
+	
+	<div class="row">	
+		<div class="col-md-12">		
+			<p class="text-justify" style="margin: 0px;">
+				<b>Observaciones: </b>  ${solicitud.observaciones}
+			</p>
+		</div>		
+	</div>
+</div>
+
+
+
+
+
+<script>
+	
+	function calcularTotal(){
+		
+		var resultado=Math.round($("#cantidad").val()*$("#valor").val()*100)/100;
+		
+		$("#suma").val(NumeroALetras(resultado));
+		$("#total").val(Math.round($("#cantidad").val()*$("#valor").val()*100)/100);
+		
+	}
+	
+	$("#valor").prop("disabled",true);
+	$("#cantidad").prop("disabled",true);
+	
+	
+	
+	//Calculo del Total
+	$("#cantidad").blur(function(){
+		$("#totalCantidad").val($("#cantidad").val());
+	});
+	
+	$("#valor").blur(function(){
+		obtenerResultado();
+	});
+	
+	$("#cantidad").blur(function(){
+		obtenerResultado();
+	});
+	
+	function obtenerResultado(){
+			
+		$("#totalValor").val("$ "+Math.round($("#cantidad").val()*$("#valor").val()*100)/100);
+	}
+	
+	$("#valor").keypress(function(key){
+				
+	});
+
+	$("#concepto").change(function(){
+		$("#valor").prop("disabled",false);
+		$("#cantidad").prop("disabled",false);
+		$("#cantidad").val("");
+		$("#valor").val("");
+		$("#cantidad").focus();
+		
+	});
+	
+	 $("#verSolicitud").popover({		 	       
+	        html : true, 
+	        content: function() {
+	          return $('#detallesSolicitud').html();
+	        },
+	        placement: 'auto left',
+	        title: function() {
+	          return "<b>Solicitud No. ${solicitud.numero}</b>";
+	        },
+	        trigger: "hover"
+	    });
+	 
+	 
+		
+	 	$("#formularioCombustible").validate({
+	 		rules:{
+	 			cantidad:{
+	 				decimal:true,
+	 				required:true	 						
+	 			},
+	 			valor:{
+	 				decimal:true,
+	 				required:true	 				
+	 				
+	 			},
+	 			concepto:{
+	 				required:true
+	 			},
+	 			estacion:{
+	 				required:true
+	 			},
+	 			observaciones:{	 				
+	 				maxlength:150
+	 			}
+	 		},
+	 		messages:{
+	 			cantidad:{
+	 				required:"Por favor ingrese la cantidad de combustible. Para decimales utilize el (.)",	 				
+	 			},
+	 			valor:{
+	 				required: "Por favor ingrese el valor del combustible seleccionado. Para decimales utilize el (.)"	 				
+	 			},	 			
+	 			concepto:{
+	 				required: "Por favor seleccione el concepto."
+	 			},
+	 			estacion:{
+	 				required: "Por favor ingrese el nombre de la estación de servicio."
+	 			},
+	 			observaciones:{	 				
+	 				maxlength: "Las observaciones no deben exceder los 150 caracteres."
+	 			}
+	 			
+	 		}
+	 	});
+		
+	 	
+		
+		   $('#formularioCombustible').submit(function() {
+				if($("#formularioCombustible").valid()){	    		
+					return confirm("¿Está seguro que desea guardar la orden de combustible, recuerde que luego de guardarla no podrá editarla?");					    	
+		    	}else{
+		    		return false;
+		    	}    		    		    	
+		    });
+		
+
+	
+</script>
+
+<style>
+	
+	.popover{
+		width: 900px;
+	}
+</style>

@@ -1,0 +1,14 @@
+#Archivos omitidos
+
+/tmp
+tmp
+/tmp/*
+#/modules
+/lib
+/dev
+/test-result
+/logs
+/eclipse/*.launch
+eclipse/
+.classpath
+.project

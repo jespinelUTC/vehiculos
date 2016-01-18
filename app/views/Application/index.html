@@ -1,0 +1,18 @@
+#{extends 'main.html' /}
+#{set title:'Inicio' /}
+
+  #{if flash.actualizacionCuenta}
+   	<div class="alert alert-success text-justify fade in" style="margin: 0px; padding: 10px;">
+   		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+   		 <b> <i class="glyphicon glyphicon-ok"> </i> ${flash.actualizacionCuenta}</b>
+   	</div>
+   	<br />
+   #{/if}
+                
+
+		
+<div class="col-md-2"></div>
+<div class="col-md-8  thumbnail">
+	<img src="@{'/public/images/logo1.png'}" alt="" class="img img-responsive" />
+</div>
+

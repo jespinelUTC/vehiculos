@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Reporte Diario Vehicular</title>
+		<style>
+		
+			body{
+				font-family: Arial, Helvetica, sans-serif;
+				 /*text-transform: uppercase;*/
+			}
+			
+				.contenedorPrincipal{
+	 			 border-radius: 15px 50px 30px 5px;
+			     /*border: 1px solid black;*/
+			     font-size: 11px;			     
+			     padding: 10px;
+			 }
+			 
+			 .escudo{
+	 			margin-left: 0px;
+	 			margin-right: 80px;
+	 			margin-top: 0px;
+	 		}
+	 		
+	 		.encabezado{
+	 			margin-top: -10px;
+	 			width:400px;
+	 			font-size: 12px;
+	 			line-height: 20px;
+	 			margin-left: -70px;
+	 		}
+	 		
+	 		
+	 		.item{
+	 			border: 1px solid black;
+	 			width: 320px;
+	 			height:50px;
+	 			margin-bottom: 13.5px;
+	 			padding: 5px;
+	 		}
+	 		
+	 		.itemIzq{	 			
+	 			float: left;
+	 		}
+	 		
+	 		.itemDer{
+	 			float: right;
+	 		}
+	 		
+	 		img{
+	 			 display: block;
+    			 margin: 0 auto;
+	 		}
+		</style>		
+	
+	
+	</head>
+	
+	<body>
+	
+	
+		<table>
+				<td>					
+					<img src="@{'/public/images/mejia1.png'}" height="80px" class="escudo" style="margin-left:80px;"/>					
+				</td>
+				<td>
+					<div class="encabezado">
+						<center>
+								<h3 style="margin-bottom: 0px;">GOBIERNO A.D. MUNICIPAL DEL CANTÓN MEJÍA</h3>								
+								UNIDAD DE SERVICIOS GENERALES 	<br>
+								REPORTE DIARIO VEHICULAR <br />
+								<hr />
+								${fecha}
+																																												
+						</center>						
+												
+					</div>						
+				</td>
+			</table>
+		
+		<br />
+		<div class="contenedorPrincipal">
+			%{ int opcion=-1;}%
+			#{list items:vehiculos, as:'vehiculo'}
+				%{ opcion=opcion*-1;}%
+				#{if opcion >0}
+					<div class="item itemIzq">
+				#{/if}
+				#{else}				
+					<div class="item itemDer">							
+				#{/else}
+				
+					<table>
+						<tr>
+							<td style="text-align: right;"><b>VEHÍCULO: </b></td>
+							<td> &nbsp; &nbsp; &nbsp; ${vehiculo.descripcion}</td>
+						</tr>
+						<tr>
+							<td style="text-align: right;"><b>COMBUSTIBLE: </b></td>
+							<td> &nbsp; &nbsp; &nbsp; ${vehiculo.combustible}</td>
+						</tr>
+						<tr>
+							<td style="text-align: right;"><b>KILOMETRAJE: </b></td>
+							<td> &nbsp; &nbsp; &nbsp; ${vehiculo.kilometraje}</td>
+						</tr>
+					</table>
+				</div>					
+			#{/list}						
+		</div>
+		
+	</body>
+
+</html>

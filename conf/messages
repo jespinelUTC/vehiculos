@@ -1,0 +1,15 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+# Default play-paginate messages
+# You can specialize this file for each language.
+# For exemple, for french create a messages.fr file
+
+#play-paginate.name=play-paginate
+
+
+play-paginate.summary.display=Mostrando filas de la 
+play-paginate.summary.to=a la
+play-paginate.summary.from=. Total:
+play-paginate.summary.entries=Registros
