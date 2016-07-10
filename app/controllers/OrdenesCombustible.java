@@ -6,10 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.allcolor.yahp.converter.IHtmlToPdfTransformer;
+
 import models.OrdenCombustible;
 import models.SolicitudSalidaVehiculo;
 import models.Usuario;
 import models.Vehiculo;
+import play.modules.pdf.PDF.Options;
 import play.mvc.Before;
 import play.mvc.Controller;
 import play.mvc.With;
@@ -80,9 +83,12 @@ public class OrdenesCombustible extends Controller {
     }
     
     public static void ordenPDF(Long idSolicitud){
-    	SolicitudSalidaVehiculo solicitud=SolicitudSalidaVehiculo.findById(idSolicitud);    	
+    	SolicitudSalidaVehiculo solicitud=SolicitudSalidaVehiculo.findById(idSolicitud);    
+    	Options options = new Options();
+    	options.filename = "orden_combustible_numero_"+solicitud.ordenMovilizacion.ordenCombustible.numero+".pdf";
+    	options.pageSize = IHtmlToPdfTransformer.A4P; //  A4 landscape size
     	String fecha=formatearFecha(solicitud.ordenMovilizacion.ordenCombustible.fecha);
-    	renderPDF(solicitud,fecha);
+    	renderPDF(solicitud,fecha,options);
     }
     
     
