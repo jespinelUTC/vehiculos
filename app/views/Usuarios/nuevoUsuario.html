@@ -75,6 +75,7 @@
 		rules:{
 			cedula:{
 				required:true,
+				number: true,
 				cedula:true,
 				remote:{
 					url: "@{Usuarios.verificarCedulaNueva}",
@@ -95,6 +96,7 @@
 			
 			nombre:{
 				required:true,
+				lettersonly: true
 			},
 			
 			perfil:{
@@ -107,15 +109,16 @@
 			cedula:{
 				required:"Por favor ingrese el número de cédula.",
 				remote: "Esta cédula ya está registrada en otro usuario",
-				cedula:"El número de cédula ingresado no es valido"
-				
+				cedula:"El número de cédula ingresado no es valido",
+				number:" Este campo solo acepta números",
 			},
 			apellido:{
 				required:"Por favor ingrese los apellidos.",
 				lettersonly:"Este campo solo acepta letras."				
 			},			
 			nombre:{
-				required:"Por favor ingrese los nombres."
+				required:"Por favor ingrese los nombres.",
+				lettersonly:"Este campo solo acepta letras."
 			},
 			perfil:{
 				required:"Por favor seleccione un perfil"
